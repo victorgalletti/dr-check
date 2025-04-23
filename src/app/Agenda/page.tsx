@@ -1,5 +1,5 @@
 export default function Agenda() {
     return (
-        <div></div>
+        <div className=""></div>
     )
 }
