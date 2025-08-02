@@ -1,112 +1,151 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from "react";
+import {
+  FaHome,
+  FaCalendarAlt,
+  FaFileMedical,
+  FaClipboardList,
+  FaMoneyBillWave,
+  FaBoxes,
+  FaCog,
+  FaBell,
+  FaQuestionCircle,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
+import Image from "next/image";
+import Link from "next/link";
 
-const Sidebar = ({ activePage = 'agenda' }) => {
-  const [active, setActive] = useState(activePage);
+export default function Sidebar() {
+  const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const toggleSidebar = () => setCollapsed(!collapsed);
+  const toggleMobile = () => setMobileOpen(!mobileOpen);
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
-    { id: 'agenda', label: 'Agenda', icon: 'calendar' },
-    { id: 'tarefas', label: 'Tarefas', icon: 'list' },
-    { id: 'prontuario', label: 'Prontuário', icon: 'user' },
-    { id: 'financeiro', label: 'Financeiro', icon: 'dollar-sign' },
-    { id: 'estoque', label: 'Estoque', icon: 'package' },
+    { label: "Dashboard", icon: FaHome, href: "/" },
+    { label: "Agenda", icon: FaCalendarAlt, href: "/agenda" },
+    { label: "Prontuário", icon: FaFileMedical, href: "/prontuario" },
+    { label: "Tarefas", icon: FaClipboardList, href: "/tarefas" },
+    { label: "Financeiro", icon: FaMoneyBillWave, href: "/financeiro" },
+    { label: "Estoque", icon: FaBoxes, href: "/estoque" },
   ];
 
-  return (
-    <div className="h-screen w-[200px] bg-emerald-600 text-white flex flex-col">
-      {/* Logo */}
-      <div className="p-4 flex items-center gap-2">
-      <img 
-          src="/images/LightGray.svg" 
-          alt="Logo Dr. Check"
-          className="w-40 h-auto"/>
-      </div>
+  const bottomItems = [
+    { label: "Notificações", icon: FaBell },
+    { label: "Suporte", icon: FaQuestionCircle },
+    { label: "Configurações", icon: FaCog },
+  ];
 
-      {/* Menu Items */}
-      <div className="mt-6 flex flex-col flex-1">
-        {menuItems.map((item)  => (
-          <Link 
-            href={`/${item.id}`} 
-            key={item.id}
-            onClick={() => setActive(item.id)}
-            className={`flex items-center gap-3 px-4 py-3 transition-colors ${
-              active === item.id 
-                ? 'bg-emerald-700' 
-                : 'hover:bg-emerald-700/50'
-            }`}
+  const sidebarContent = (
+    <aside
+      className={`transition-all duration-300 ease-in-out flex flex-col justify-between font-sans h-full border-r border-gray-200 ${
+        collapsed ? "w-20" : "w-64"
+      } bg-white text-slate-800`}
+      aria-label="Menu lateral de navegação"
+    >
+      {/* Top */}
+      <div>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+          <button
+            onClick={toggleSidebar}
+            aria-label="Alternar menu"
+            className="text-gray-500 hover:text-green-500 transition hidden md:block text-xl"
           >
-            <div className="w-6 flex justify-center">
-              {renderIcon(item.icon)}
-            </div>
-            <span>{item.label}</span>
-          </Link>
-        ))}
+            <FaBars />
+          </button>
+          <button
+            onClick={toggleMobile}
+            aria-label="Fechar menu mobile"
+            className="text-gray-500 hover:text-green-500 transition md:hidden text-xl"
+          >
+            <FaTimes />
+          </button>
+        </div>
+
+        <nav className="mt-3 px-2 flex flex-col gap-1">
+          {menuItems.map(({ label, icon: Icon, href }) => (
+            <Link
+              key={label}
+              href={href}
+              className="group flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-green-50 hover:text-green-600 text-sm text-slate-700 transition-all relative"
+            >
+              <Icon className="text-xl" />
+              {!collapsed && <span className="font-medium">{label}</span>}
+              {collapsed && (
+                <span className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 shadow transition-all pointer-events-none z-50">
+                  {label}
+                </span>
+              )}
+            </Link>
+          ))}
+        </nav>
       </div>
-    </div>
+
+      {/* Bottom */}
+      <div className="px-2 pb-4 space-y-2">
+        {bottomItems.map(({ label, icon: Icon }) => (
+          <button
+            key={label}
+            aria-label={label}
+            className="group w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-green-50 hover:text-green-600 text-sm text-slate-700 transition-all relative"
+          >
+            <Icon className="text-xl" />
+            {!collapsed && <span className="font-medium">{label}</span>}
+            {collapsed && (
+              <span className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 shadow transition-all pointer-events-none z-50">
+                {label}
+              </span>
+            )}
+          </button>
+        ))}
+
+        {/* Usuário */}
+        <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-lg bg-green-50">
+          <Image
+            src="./images/avatar.png"
+            alt="Avatar"
+            width={36}
+            height={36}
+            className="rounded-full border-2 border-green-200"
+          />
+          {!collapsed && (
+            <div>
+              <p className="text-sm font-semibold text-slate-800">Dr. João Pedro</p>
+              <p className="text-xs text-slate-500">joao@clinicadrcheck.com</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </aside>
   );
-};
 
-// Função para renderizar os ícones
-const renderIcon = (iconName: string) => {
-  switch (iconName) {
-    case 'grid':
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-      ) ;
-    case 'calendar':
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
-      ) ;
-    case 'list':
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="8" y1="6" x2="21" y2="6" />
-          <line x1="8" y1="12" x2="21" y2="12" />
-          <line x1="8" y1="18" x2="21" y2="18" />
-          <line x1="3" y1="6" x2="3.01" y2="6" />
-          <line x1="3" y1="12" x2="3.01" y2="12" />
-          <line x1="3" y1="18" x2="3.01" y2="18" />
-        </svg>
-      ) ;
-    case 'user':
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      ) ;
-    case 'dollar-sign':
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23" />
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-        </svg>
-      ) ;
-    case 'package':
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="16.5" y1="9.4" x2="7.5" y2="4.21" />
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-          <line x1="12" y1="22.08" x2="12" y2="12" />
-        </svg>
-      ) ;
-    default:
-      return null;
-  }
-};
+  return (
+    <>
+      {/* Desktop */}
+      <div className="hidden md:block fixed top-0 left-0 h-screen z-40">
+        {sidebarContent}
+      </div>
 
-export default Sidebar;
+      {/* Botão Mobile */}
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 text-white bg-green-500 p-3 rounded-lg shadow hover:bg-green-600 transition"
+        onClick={toggleMobile}
+        aria-label="Abrir menu"
+      >
+        <FaBars />
+      </button>
+
+      {/* Sidebar Mobile */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40">
+          <div className="fixed top-0 left-0 h-full bg-white shadow-lg z-50">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
