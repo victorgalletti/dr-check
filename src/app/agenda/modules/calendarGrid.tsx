@@ -3,22 +3,11 @@
 import React from "react";
 
 // Tipos para os dados do evento. O ideal é que fiquem num ficheiro partilhado.
-export interface CalendarEvent {
-  id: number;
-  date: string; // Formato "YYYY-MM-DD"
-  startTime: string; // Formato "HH:mm"
-  patient: string;
-  status:
-    | "Confirmada"
-    | "Cancelada"
-    | "Retorno"
-    | "Aguardando"
-    | "Primeira Consulta";
-}
+import { CalendarEvent } from "@/app/agenda/modules/types";
 
 interface CalendarGridProps {
   events?: CalendarEvent[];
-  currentWeek?: Date[]; // A prop é opcional para maior segurança
+  currentWeek?: Date[];
 }
 
 const CalendarGrid: React.FC<CalendarGridProps> = ({

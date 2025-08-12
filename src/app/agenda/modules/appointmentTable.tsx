@@ -2,18 +2,7 @@
 
 import React from "react";
 
-// Tipos para os dados da consulta. O ideal é que fiquem num ficheiro partilhado, como 'src/types.ts'
-export interface Appointment {
-  id: number;
-  time: string;
-  type: string;
-  status: "Confirmada" | "Cancelada" | "Aguardando";
-  patient: {
-    name: string;
-    email: string;
-    initials: string;
-  };
-}
+import { Appointment } from "./types";
 
 interface AppointmentTableProps {
   // A propriedade appointments agora é opcional

@@ -5,6 +5,10 @@ import Header from "@/components/header/header";
 import CalendarControls from "@/app/agenda/modules/calendarControls";
 import CalendarGrid from "@/app/agenda/modules/calendarGrid";
 import AppointmentTable from "@/app/agenda/modules/appointmentTable";
+import {
+  mockAppointments,
+  mockCalendarEvents,
+} from "@/app/agenda/modules/mockData";
 
 const AgendaPage: React.FC = () => {
   const [activeView, setActiveView] = useState<"Dia" | "Semana" | "Mês">(
@@ -87,10 +91,16 @@ const AgendaPage: React.FC = () => {
             />
 
             <div className="mb-6">
-              <CalendarGrid currentWeek={currentWeek} />
+              <CalendarGrid
+                events={mockCalendarEvents}
+                currentWeek={currentWeek}
+              />
             </div>
 
-            <AppointmentTable date={todayDate} />
+            <AppointmentTable
+              appointments={mockAppointments}
+              date={todayDate}
+            />
           </div>
         </main>
       </div>
