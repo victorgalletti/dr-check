@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Appointment } from "./types";
+import { Appointment } from "../types/types";
 
 interface AppointmentTableProps {
   // A propriedade appointments agora é opcional

@@ -8,7 +8,7 @@ import AppointmentTable from "@/app/agenda/modules/appointmentTable";
 import {
   mockAppointments,
   mockCalendarEvents,
-} from "@/app/agenda/modules/mockData";
+} from "@/app/agenda/mockData/mockData";
 
 const AgendaPage: React.FC = () => {
   const [activeView, setActiveView] = useState<"Dia" | "Semana" | "Mês">(

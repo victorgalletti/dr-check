@@ -1,8 +1,4 @@
-import {
-  Appointment,
-  CalendarEvent,
-  Patient,
-} from "@/app/agenda/modules/types";
+import { Appointment, CalendarEvent, Patient } from "@/app/agenda/types/types";
 
 export const mockPatients: Patient[] = [
   {

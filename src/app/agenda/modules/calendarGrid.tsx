@@ -3,7 +3,7 @@
 import React from "react";
 
 // Tipos para os dados do evento. O ideal é que fiquem num ficheiro partilhado.
-import { CalendarEvent } from "@/app/agenda/modules/types";
+import { CalendarEvent } from "@/app/agenda/types/types";
 
 interface CalendarGridProps {
   events?: CalendarEvent[];
