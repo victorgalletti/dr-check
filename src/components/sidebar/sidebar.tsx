@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaHome,
   FaCalendarAlt,
@@ -23,6 +23,15 @@ export default function Sidebar() {
 
   const toggleSidebar = () => setCollapsed(!collapsed);
   const toggleMobile = () => setMobileOpen(!mobileOpen);
+
+  // >>>> NOVO: expõe a largura atual em uma CSS variable global
+  useEffect(() => {
+    const width = collapsed ? "5rem" : "16rem"; // w-20 (80px ≈ 5rem) | w-64 (256px = 16rem)
+    document.documentElement.style.setProperty("--sidebar-w", width);
+    return () => {
+      document.documentElement.style.removeProperty("--sidebar-w");
+    };
+  }, [collapsed]);
 
   const menuItems = [
     { label: "Dashboard", icon: FaHome, href: "/" },
