@@ -1,8 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --- TEMA CLARO (Ajustado conforme suas regras) --- */
+
+  --background: #ffffff; /* Equivalente a bg-white */
+  --foreground: #111827; /* Equivalente a text-gray-900 */
+
+  --card-bg: #f9fafb; /* Equivalente a bg-gray-50 */
+  --card-border: #e5e7eb; /* Equivalente a border-gray-200 */
+
+  --text-primary: #111827; /* Equivalente a text-gray-900 */
+  --text-secondary: #6b7280; /* Equivalente a text-gray-500 */
+
+  --accent: #4f46e5; /* Equivalente a bg-indigo-600 */
+  --accent-foreground: #ffffff; /* Equivalente a text-white */
+
+  --info-color: #2563eb; /* blue-600 */
+  --info-bg: #dbeafe; /* blue-100 */
+  --success-color: #16a34a; /* green-600 */
+  --success-bg: #dcfce7; /* green-100 */
+  --payment-color: #9333ea; /* purple-600 */
+  --payment-bg: #f3e8ff; /* purple-100 */
+  --danger-color: #dc2626; /* red-600 */
+  --danger-bg: #fee2e2; /* red-100 */
 }
 
 :root {
@@ -17,6 +37,33 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+.dark {
+  /* Tema Escuro */
+  --background: #14161a;
+  --foreground: #f0f0f0;
+  --sidebar-bg: #14161a;
+  --sidebar-border: #3f3f3f;
+  --sidebar-text: #f0f0f0; /* Iron */
+  --sidebar-active-bg: #181820; /* Shark */
+  --sidebar-active-text: #ffffff; /* Branco */
+  --hover-bg: #27272b;
+  --card-bg: #27272b; /* Tuna */
+  --card-border: #44454a; /* Abbey */
+  --text-primary: #f0f0f0; /* Iron */
+  --text-secondary: #b9b9b9; /* Manatee */
+  --accent: #4f46e5;
+  --accent-foreground: #f0f0f0; /* Shark */
+
+  --info-color: #60a5fa; /* blue-400 */
+  --info-bg: rgba(59, 130, 246, 0.15);
+  --success-color: #4ade80; /* green-400 */
+  --success-bg: rgba(74, 222, 128, 0.15);
+  --payment-color: #c084fc; /* purple-400 */
+  --payment-bg: rgba(192, 132, 252, 0.15);
+  --danger-color: #f87171; /* red-400 */
+  --danger-bg: rgba(248, 113, 113, 0.15);
 }
 
 body {

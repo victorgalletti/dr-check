@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar/sidebar";
+import { ThemeProvider } from "@/app/contexts/themeContext";
 
 // Fontes personalizadas
 const geistSans = Geist({
@@ -26,10 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="antialiased bg-white text-neutral-900">
-        <Sidebar />
-        {children}
+        <ThemeProvider>
+          <Sidebar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

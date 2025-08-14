@@ -13,13 +13,18 @@ import {
   FaQuestionCircle,
   FaBars,
   FaTimes,
+  FaSun,
+  FaMoon,
 } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "@/app/contexts/themeContext";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { theme, toggleTheme } = useTheme(); // Usa o contexto
 
   const toggleSidebar = () => setCollapsed(!collapsed);
   const toggleMobile = () => setMobileOpen(!mobileOpen);
@@ -46,29 +51,47 @@ export default function Sidebar() {
     { label: "Notificações", icon: FaBell },
     { label: "Suporte", icon: FaQuestionCircle },
     { label: "Configurações", icon: FaCog },
+    {
+      label: `Tema: ${theme === "light" ? "Claro" : "Escuro"}`,
+      icon: theme === "light" ? FaSun : FaMoon,
+      action: toggleTheme,
+    },
   ];
 
   const sidebarContent = (
     <aside
-      className={`transition-all duration-300 ease-in-out flex flex-col justify-between font-sans h-full border-r border-gray-200 ${
-        collapsed ? "w-20" : "w-64"
-      } bg-white text-slate-800`}
+      className={`transition-all duration-300 ease-in-out flex flex-col justify-between font-sans h-full border-r ${
+        theme === "dark" ? "text-[var(--sidebar-border)]" : "border-gray-200"
+      } ${collapsed ? "w-20" : "w-64"} bg-white${
+        theme === "dark" ? " text-[var(--foreground)]" : " text-slate-800"
+      }`}
+      style={theme === "dark" ? { background: "var(--sidebar-bg)" } : {}}
       aria-label="Menu lateral de navegação"
     >
       {/* Top */}
       <div>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+        <div
+          className={`flex items-center justify-between px-5 py-4 border-b ${
+            theme === "dark"
+              ? "text-[var(--sidebar-border)]"
+              : "border-gray-100"
+          }`}
+        >
           <button
             onClick={toggleSidebar}
             aria-label="Alternar menu"
-            className="text-gray-500 hover:text-green-500 transition hidden md:block text-xl"
+            className={`${
+              theme === "dark" ? "text-[var(--foreground)]" : "text-gray-500"
+            } hover:text-green-500 transition hidden md:block text-xl`}
           >
             <FaBars />
           </button>
           <button
             onClick={toggleMobile}
             aria-label="Fechar menu mobile"
-            className="text-gray-500 hover:text-green-500 transition md:hidden text-xl"
+            className={`${
+              theme === "dark" ? "text-[var(--foreground)]" : "text-gray-500"
+            } hover:text-green-500 transition md:hidden text-xl`}
           >
             <FaTimes />
           </button>
@@ -79,7 +102,13 @@ export default function Sidebar() {
             <Link
               key={label}
               href={href}
-              className="group flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-green-50 hover:text-green-600 text-sm text-slate-700 transition-all relative"
+              className={`group flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all relative
+              ${
+                theme === "dark"
+                  ? "text-[var(--foreground)] hover:bg-[var(--hover-bg)] hover:text-green-500"
+                  : "text-slate-700 hover:bg-green-50 hover:text-green-600"
+              }
+            `}
             >
               <Icon className="text-xl" />
               {!collapsed && <span className="font-medium">{label}</span>}
@@ -95,11 +124,18 @@ export default function Sidebar() {
 
       {/* Bottom */}
       <div className="px-2 pb-4 space-y-2">
-        {bottomItems.map(({ label, icon: Icon }) => (
+        {bottomItems.map(({ label, icon: Icon, action }) => (
           <button
             key={label}
             aria-label={label}
-            className="group w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-green-50 hover:text-green-600 text-sm text-slate-700 transition-all relative"
+            className={`group w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all relative
+            ${
+              theme === "dark"
+                ? "text-[var(--foreground)] hover:bg-[var(--hover-bg)] hover:text-green-500"
+                : "text-slate-700 hover:bg-green-50 hover:text-green-600"
+            }
+            `}
+            onClick={action}
           >
             <Icon className="text-xl" />
             {!collapsed && <span className="font-medium">{label}</span>}
@@ -112,17 +148,33 @@ export default function Sidebar() {
         ))}
 
         {/* Usuário */}
-        <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-lg bg-green-50">
+        <div
+          className={`mt-6 flex items-center gap-3 px-4 py-3 rounded-lg ${
+            theme === "dark" ? "bg-[var(--card-bg)]" : "bg-green-50"
+          }`}
+        >
           <Image
             src="./images/avatar.png"
             alt="Avatar"
             width={36}
             height={36}
-            className="rounded-full border-2 border-green-200"
+            className={`rounded-full border-2 ${
+              theme === "dark"
+                ? "border-[var(--sidebar-border)]"
+                : "border-green-200"
+            }`}
           />
           {!collapsed && (
             <div>
-              <p className="text-sm font-semibold text-slate-800">Dr. João Pedro</p>
+              <p
+                className={`text-sm font-semibold ${
+                  theme === "dark"
+                    ? "text-[var(--foreground)]"
+                    : "text-slate-800"
+                }`}
+              >
+                Dr. João Pedro
+              </p>
               <p className="text-xs text-slate-500">joao@clinicadrcheck.com</p>
             </div>
           )}

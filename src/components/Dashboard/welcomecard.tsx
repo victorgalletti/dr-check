@@ -1,5 +1,6 @@
 // src/components/modules/dashboard/WelcomeCard.tsx
-import React from 'react';
+import React from "react";
+import { useTheme } from "@/app/contexts/themeContext";
 
 interface WelcomeCardProps {
   title: string;
@@ -7,10 +8,24 @@ interface WelcomeCardProps {
 }
 
 const WelcomeCard: React.FC<WelcomeCardProps> = ({ title, subtitle }) => {
+  const { theme } = useTheme();
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
-      <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+    <div
+      className={`p-6 rounded-lg shadow-sm
+        bg-white
+        ${theme === "dark" ? "text-[var(--foreground)]" : "text-gray-800"}
+      `}
+      style={theme === "dark" ? { background: "var(--card-bg)" } : {}}
+    >
+      <h1 className="text-2xl font-semibold">{title}</h1>
+      <p
+        className={`text-sm mt-1 ${
+          theme === "dark" ? "text-[var(--text-secondary)]" : "text-gray-500"
+        }`}
+      >
+        {subtitle}
+      </p>
     </div>
   );
 };
