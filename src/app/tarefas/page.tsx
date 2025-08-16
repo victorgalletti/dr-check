@@ -5,6 +5,7 @@ import TaskFilterButtons from "./modules/taskFilterButton";
 import TaskSearchInput from "./modules/taskSearchInput";
 import NewTaskButton from "./modules/newTaskButton";
 import TeamTasksTable from "./modules/teamTaskTable";
+import Header from "@/components/header/header";
 
 // --- Tipos de Dados ---
 interface Task {
@@ -252,60 +253,63 @@ const TarefasPage: React.FC = () => {
   const handleNewTask = () => console.log("Criar nova tarefa");
 
   return (
-    <main className="flex-1 overflow-y-auto bg-gray-50 p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Controles e Filtros */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center mb-4 md:mb-0">
-              <h3 className="text-xl font-semibold text-gray-800 mr-4">
-                Minhas Tarefas
-              </h3>
-              <TaskFilterButtons
-                activeFilter={activeFilter}
-                onFilterChange={setActiveFilter}
-              />
-            </div>
-            <div className="flex space-x-2">
-              <TaskSearchInput
-                searchValue={searchValue}
-                onSearchChange={setSearchValue}
-              />
-              <NewTaskButton onClick={handleNewTask} />
-            </div>
-          </div>
-        </div>
-
-        {/* Lista de Tarefas */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
-          <div className="divide-y divide-gray-200">
-            {filteredTasks.length > 0 ? (
-              filteredTasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  onToggleComplete={handleToggleComplete}
-                  onEdit={handleEditTask}
-                  onDelete={handleDeleteTask}
+    <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
+      <Header title="Tarefas" />
+      <main className="flex-1 overflow-y-auto bg-gray-50 p-4">
+        <div className="max-w-7xl mx-auto">
+          {/* Controles e Filtros */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center mb-4 md:mb-0">
+                <h3 className="text-xl font-semibold text-gray-800 mr-4">
+                  Minhas Tarefas
+                </h3>
+                <TaskFilterButtons
+                  activeFilter={activeFilter}
+                  onFilterChange={setActiveFilter}
                 />
-              ))
-            ) : (
-              <div className="p-6 text-center text-gray-500">
-                Nenhuma tarefa encontrada.
               </div>
-            )}
+              <div className="flex space-x-2">
+                <TaskSearchInput
+                  searchValue={searchValue}
+                  onSearchChange={setSearchValue}
+                />
+                <NewTaskButton onClick={handleNewTask} />
+              </div>
+            </div>
+          </div>
+
+          {/* Lista de Tarefas */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
+            <div className="divide-y divide-gray-200">
+              {filteredTasks.length > 0 ? (
+                filteredTasks.map((task) => (
+                  <TaskItem
+                    key={task.id}
+                    task={task}
+                    onToggleComplete={handleToggleComplete}
+                    onEdit={handleEditTask}
+                    onDelete={handleDeleteTask}
+                  />
+                ))
+              ) : (
+                <div className="p-6 text-center text-gray-500">
+                  Nenhuma tarefa encontrada.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Tarefas da Equipe */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">
+              Tarefas da Equipe
+            </h3>
+            <TeamTasksTable tasks={teamTasks} />
           </div>
         </div>
-
-        {/* Tarefas da Equipe */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Tarefas da Equipe
-          </h3>
-          <TeamTasksTable tasks={teamTasks} />
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 

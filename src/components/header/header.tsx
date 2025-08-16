@@ -9,7 +9,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
     <header className="[var(--background)] shadow-sm z-10 border-b border-[var(--card-border)]">
-      <div className=" px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div className=" px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">
           {title}
         </h2>
