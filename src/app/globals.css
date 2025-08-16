@@ -32,12 +32,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 .dark {
   /* Tema Escuro */
@@ -58,7 +58,7 @@
 
   --info-color: #60a5fa; /* blue-400 */
   --info-bg: rgba(59, 130, 246, 0.15);
-  --success-color: #4ade80; /* green-400 */
+  --success-color: #16a34a; /* green-400 */
   --success-bg: rgba(74, 222, 128, 0.15);
   --payment-color: #c084fc; /* purple-400 */
   --payment-bg: rgba(192, 132, 252, 0.15);
