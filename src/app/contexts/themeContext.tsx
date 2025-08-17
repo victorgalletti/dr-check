@@ -12,17 +12,62 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>("light");
+  // Estado inicial lazy: tenta recuperar preferência salva; senão segue o sistema
+  const [theme, setTheme] = useState<Theme>(() => {
+    try {
+      const saved = (typeof window !== "undefined" &&
+        localStorage.getItem("theme")) as Theme | null;
+      if (saved === "light" || saved === "dark") return saved;
+      if (typeof window !== "undefined") {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        return prefersDark ? "dark" : "light";
+      }
+    } catch (_) {
+      // falha silenciosa (ex: modo privado restringindo localStorage)
+    }
+    return "light"; // fallback
+  });
 
+  // Aplica classes e persiste preferência explícita do usuário
   useEffect(() => {
-    // Aplica a classe 'dark' ao HTML quando o tema muda
     const root = window.document.documentElement;
     root.classList.remove(theme === "light" ? "dark" : "light");
     root.classList.add(theme);
+    try {
+      localStorage.setItem("theme", theme);
+    } catch (_) {
+      /* ignore */
+    }
   }, [theme]);
 
+  // Ouve mudanças no tema do SO apenas se o usuário não salvou manualmente (sem item em localStorage antes do mount)
+  useEffect(() => {
+    // Se já existe preferência salva, não sincroniza com SO
+    let hadSavedPref = false;
+    try {
+      hadSavedPref = localStorage.getItem("theme") !== null;
+    } catch (_) {}
+    if (hadSavedPref) return;
+
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const handle = (e: MediaQueryListEvent) => {
+      // Apenas segue o SO enquanto o usuário não tiver definido manualmente depois
+      try {
+        if (localStorage.getItem("theme") === null) {
+          setTheme(e.matches ? "dark" : "light");
+        }
+      } catch (_) {
+        setTheme(e.matches ? "dark" : "light");
+      }
+    };
+    mq.addEventListener("change", handle);
+    return () => mq.removeEventListener("change", handle);
+  }, []);
+
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   return (

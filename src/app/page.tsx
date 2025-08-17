@@ -1,7 +1,7 @@
 // src/pages/Dashboard.tsx
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import Header from "@/components/header/header";
 import WelcomeCard from "@/components/Dashboard/welcomeCard";
 import StatCard from "@/components/Dashboard/statCard";
@@ -141,7 +141,7 @@ const PerformanceChart: React.FC<{ days: number }> = ({ days }) => {
 
 const Dashboard: React.FC = () => {
   const [range, setRange] = useState<RangeKey>("30d");
-  const { theme, toggleTheme } = useTheme(); // Usa o contexto
+  const { theme, toggleTheme } = useTheme();
 
   const todayLabel = useMemo(() => {
     const now = new Date();
