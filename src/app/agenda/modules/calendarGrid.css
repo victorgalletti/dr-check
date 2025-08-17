@@ -1,124 +1,133 @@
-/* src/app/agenda/modules/CalendarGrid.css */
-
 /* --- GERAL --- */
-.rbc-calendar {
+.fc {
+  /* Equivalente a .rbc-calendar */
   background-color: transparent !important;
   color: var(--text-primary);
   border: none !important;
 }
 
 /* --- BARRA DE FERRAMENTAS (Hoje, Anterior, Próximo, Mês/Semana/Dia) --- */
-.rbc-toolbar {
+.fc-header-toolbar {
+  /* Equivalente a .rbc-toolbar */
   border-bottom: 1px solid var(--card-border);
   padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem !important; /* !important para sobrescrever o padrão */
 }
 
-.rbc-toolbar .rbc-toolbar-label {
-  font-size: 1.125rem;
+.fc-toolbar-title {
+  /* Equivalente a .rbc-toolbar-label */
+  font-size: 1.125rem !important;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.rbc-btn-group button {
-  background: transparent;
-  border: 1px solid var(--card-border);
-  color: var(--text-secondary);
-  padding: 0.4rem 0.8rem;
+.fc-button {
+  /* Equivalente a .rbc-btn-group button */
+  background: transparent !important;
+  border: 1px solid var(--card-border) !important;
+  color: var(--text-secondary) !important;
+  padding: 0.4rem 0.8rem !important;
   transition: all 0.2s ease-in-out;
+  text-transform: capitalize !important; /* Opcional: para nomes como "mês" */
 }
-.rbc-btn-group button:hover {
-  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05));
-  border-color: var(--accent);
-  color: var(--accent);
+.fc-button:hover {
+  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05)) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
 }
-.rbc-btn-group button.rbc-active {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-foreground);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.fc-button-active {
+  /* Equivalente a .rbc-active */
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+.fc-button:focus {
+  box-shadow: none !important; /* Remove o anel de foco padrão */
 }
 
-/* --- CABEÇALHO DOS DIAS (Seg 15, Ter 16...) --- */
-.rbc-header {
-  border: none;
+/* --- CABEÇALHO DOS DIAS (Seg, Ter...) --- */
+.fc-col-header-cell {
+  /* Equivalente a .rbc-header */
+  border: none !important;
   padding: 0.5rem 0;
-  text-align: center;
   font-weight: 500;
   color: var(--text-secondary);
+  border-left: 1px solid var(--card-border) !important;
 }
-.rbc-header + .rbc-header {
-  border-left: 1px solid var(--card-border);
+.fc-col-header-cell:first-child {
+  border-left: none !important;
+}
+/* Alvo do texto interno para evitar sublinhado do link */
+.fc-col-header-cell-cushion {
+  color: inherit;
+  text-decoration: none;
 }
 
 /* --- LINHAS DA GRADE --- */
-.rbc-time-view,
-.rbc-month-view {
-  border: none !important;
-}
-.rbc-time-slot,
-.rbc-day-bg {
-  border: none !important;
-}
-.rbc-time-column,
-.rbc-month-row {
-  border-left: 1px solid var(--card-border) !important;
-}
-.rbc-timeslot-group {
-  border-bottom: 1px solid var(--card-border) !important;
+/* Seletor robusto para todas as linhas e colunas da grade */
+.fc-theme-standard th,
+.fc-theme-standard td {
+  border-color: var(--card-border) !important;
 }
 
 /* --- COLUNA DE HORÁRIOS (08:00, 09:00...) --- */
-.rbc-time-gutter {
-  border-right: 1px solid var(--card-border) !important;
-}
-.rbc-time-gutter .rbc-timeslot-group {
-  border-bottom: none !important; /* Remove linha dupla */
-}
-.rbc-label {
+.fc-timegrid-slot-label {
+  /* Equivalente a .rbc-label */
   color: var(--text-secondary);
   font-size: 0.75rem;
+  border: none !important;
+}
+.fc-timegrid-axis {
+  /* Equivalente a .rbc-time-gutter */
+  border-right-color: var(--card-border) !important;
 }
 
 /* --- COLUNA DE HOJE --- */
-.rbc-today {
-  background-color: var(--accent-bg, rgba(79, 70, 229, 0.03));
+.fc-day-today {
+  /* Equivalente a .rbc-today */
+  background-color: var(--accent-bg, rgba(79, 70, 229, 0.03)) !important;
 }
 
+/* --- EVENTOS --- */
 /* Remove horário duplicado dentro do card */
-.rbc-event-label {
+.fc-event-time {
+  /* Equivalente a .rbc-event-label */
   display: none;
 }
 
 /* Ajustes gerais dos eventos */
-.rbc-event,
-.rbc-day-slot .rbc-background-event {
+.fc-event {
+  /* Equivalente a .rbc-event */
   box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Melhor contraste ao focar/hover */
-.rbc-event:focus,
-.rbc-event:hover {
+.fc-event:focus,
+.fc-event:hover {
   outline: 0;
   filter: brightness(1.08);
 }
 
-/* Barra de seleção ao arrastar (se usar) */
-.rbc-slot-selection {
-  background: rgba(59, 130, 246, 0.15);
+/* --- SELEÇÃO --- */
+/* Barra de seleção ao arrastar */
+.fc-highlight {
+  /* Equivalente a .rbc-slot-selection */
+  background: rgba(59, 130, 246, 0.15) !important;
   border: 1px solid rgba(59, 130, 246, 0.4);
 }
 
-/* --- CORREÇÃO ESTRUTURAL DO CABEÇALHO --- */
-/* --- CORREÇÃO ESTRUTURAL DO CABEÇALHO --- */
-/* A biblioteca renderiza uma linha para eventos "all-day" mesmo que vazia.
-   Isso criava a "linha fantasma" que quebrava o layout do cabeçalho.
-   Esta regra oculta essa linha, resolvendo o problema estrutural. */
-.rbc-time-header-content > .rbc-row:first-child {
-  display: none;
-}
+/* --- CORREÇÃO ESTRUTURAL DO CABEÇALHO (ALL-DAY SLOT) --- */
+/* O FullCalendar também pode renderizar uma linha "all-day" no topo das
+   visualizações de semana/dia. O ideal é desativá-la via JavaScript, mas
+   este CSS também a oculta, resolvendo a "linha fantasma" do layout. */
 
-.rbc-allday-cell,
-.rbc-row.rbc-allday {
+/* Opção 1 (Recomendada): Via JavaScript/TypeScript na configuração do calendário */
+/* allDaySlot: false */
+
+/* Opção 2 (CSS-only): Oculta a seção "all-day" na visualização TimeGrid */
+.fc-timegrid-all-day {
+  /* Equivalente a .rbc-allday-cell */
   display: none !important;
 }

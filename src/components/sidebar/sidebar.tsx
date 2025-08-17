@@ -66,7 +66,6 @@ export default function Sidebar() {
           <button
             onClick={toggleSidebar}
             aria-label="Alternar menu"
-            className="text-[var(--text-secondary)] hover:text-green-500 transition hidden md:block text-2xl"
             className={`${
               theme === "dark" ? "text-[var(--foreground)]" : "text-gray-500"
             } hover:text-green-500 transition hidden md:block text-2xl`}

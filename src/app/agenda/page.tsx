@@ -30,9 +30,6 @@ const AgendaPage: React.FC = () => {
   const handleNavigate = useCallback((newDate: Date) => {
     setDate(newDate);
   }, []);
-  const handleNavigate = useCallback((newDate: Date) => {
-    setDate(newDate);
-  }, []);
 
   const handleView = useCallback((newView: string) => {
     setView(newView);
@@ -81,7 +78,6 @@ const AgendaPage: React.FC = () => {
       <div className="min-h-screen">
         <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
           <Header title="Agenda" />
-
           <main className="p-4 sm:p-6 md:p-8">
             <div className="max-w-full mx-auto">
               <CalendarControls
@@ -92,22 +88,6 @@ const AgendaPage: React.FC = () => {
                 onNewAppointment={() => handleNewAppointment()}
                 viewMap={viewMap}
               />
-    <>
-      <div className="min-h-screen">
-        <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
-          <Header title="Agenda" />
-
-          <main className="p-4 sm:p-6 md:p-8">
-            <div className="max-w-full mx-auto">
-              <CalendarControls
-                date={date}
-                view={view}
-                onView={handleView}
-                onNavigate={handleNavigate}
-                onNewAppointment={() => handleNewAppointment()}
-                viewMap={viewMap}
-              />
-
               <div className="mt-6">
                 <div className="mb-6">
                   <CalendarGrid
@@ -120,7 +100,6 @@ const AgendaPage: React.FC = () => {
                     onSelectEvent={handleSelectEvent}
                   />
                 </div>
-
                 <AppointmentTable
                   appointments={mockAppointments}
                   date={todayDate}
@@ -130,24 +109,6 @@ const AgendaPage: React.FC = () => {
           </main>
         </div>
       </div>
-
-      <CrudAppointment
-        open={isCrudOpen}
-        onClose={() => setIsCrudOpen(false)}
-        onSubmit={handleSubmitAppointment}
-        initialData={crudInitialData}
-      />
-    </>
-                <AppointmentTable
-                  appointments={mockAppointments}
-                  date={todayDate}
-                />
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-
       <CrudAppointment
         open={isCrudOpen}
         onClose={() => setIsCrudOpen(false)}
