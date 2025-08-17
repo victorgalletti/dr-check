@@ -1,114 +1,162 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { add, sub } from "date-fns";
 
-// Interface de props atualizada para incluir o estado da visualização ativa
+type ViewKey = "Dia" | "Semana" | "Mês" | "Agenda";
+
 interface CalendarControlsProps {
-  currentMonth: string;
-  currentYear: number;
-  activeView: "Dia" | "Semana" | "Mês";
-  onViewChange: (view: "Dia" | "Semana" | "Mês") => void;
-  onPrevMonth: () => void;
-  onNextMonth: () => void;
+  date: Date;
+  view: string;
+  onView: (view: string) => void;
+  onNavigate: (newDate: Date) => void;
   onNewAppointment: () => void;
+  viewMap: { [key: string]: string };
 }
 
 const CalendarControls: React.FC<CalendarControlsProps> = ({
-  currentMonth,
-  currentYear,
-  activeView,
-  onViewChange,
-  onPrevMonth,
-  onNextMonth,
+  date,
+  view,
+  onView,
+  onNavigate,
   onNewAppointment,
+  viewMap,
 }) => {
-  const viewOptions: ("Dia" | "Semana" | "Mês")[] = ["Dia", "Semana", "Mês"];
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const currentViewLabel =
+    Object.keys(viewMap).find((key) => viewMap[key] === view) || "Semana";
+
+  const handleNavigation = (action: "PREV" | "NEXT" | "TODAY") => {
+    if (action === "TODAY") {
+      onNavigate(new Date());
+      return;
+    }
+    const duration =
+      view === "timeGridDay"
+        ? { days: 1 }
+        : view === "timeGridWeek"
+        ? { weeks: 1 }
+        : { months: 1 };
+    const newDate =
+      action === "PREV" ? sub(date, duration) : add(date, duration);
+    onNavigate(newDate);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const displayDate = new Intl.DateTimeFormat("pt-BR", {
+    month: "long",
+    year: "numeric",
+  })
+    .format(date)
+    .replace(" de ", " de ");
 
   return (
-    // Aplicando o wrapper de "card" do agenda.html
-    <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-      {/* Estrutura flex responsiva do agenda.html */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-        {/* Navegação de Mês/Ano */}
-        <div className="flex items-center mb-4 md:mb-0">
-          <h3 className="text-xl font-semibold text-gray-800">
-            {currentMonth} {currentYear}
-          </h3>
-          <div className="ml-4 flex space-x-2">
+    <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-3 sm:p-4 border border-[var(--card-border)]">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => handleNavigation("TODAY")}
+            className="px-4 py-2 text-sm font-medium rounded-md border border-[var(--card-border)] text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5"
+          >
+            Hoje
+          </button>
+          <div className="flex items-center space-x-1">
             <button
-              onClick={onPrevMonth}
-              className="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none"
-              aria-label="Mês anterior"
+              onClick={() => handleNavigation("PREV")}
+              className="p-2 rounded-full text-[var(--text-secondary)] hover:bg-black/5 dark:hover:bg-white/5"
+              aria-label="Anterior"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
+                  fillRule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clipRule="evenodd"
                 />
               </svg>
             </button>
             <button
-              onClick={onNextMonth}
-              className="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none"
-              aria-label="Próximo mês"
+              onClick={() => handleNavigation("NEXT")}
+              className="p-2 rounded-full text-[var(--text-secondary)] hover:bg-black/5 dark:hover:bg-white/5"
+              aria-label="Próximo"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4-4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
                 />
               </svg>
             </button>
           </div>
+          <h3 className="text-lg sm:text-xl font-medium text-[var(--text-primary)]">
+            {displayDate}
+          </h3>
         </div>
 
-        {/* Seletores de Visualização e Botão de Nova Consulta */}
-        <div className="flex space-x-2">
-          {viewOptions.map((view) => (
+        <div className="flex items-center space-x-2">
+          <div className="relative" ref={dropdownRef}>
             <button
-              key={view}
-              onClick={() => onViewChange(view)}
-              // Lógica de classes para corresponder ao estilo ativo/inativo do HTML
-              className={`px-3 py-1 rounded-md text-sm font-medium ${
-                activeView === view
-                  ? "bg-indigo-600 text-white"
-                  : "bg-indigo-100 text-indigo-700"
-              }`}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="px-4 py-2 text-sm font-medium rounded-md border border-[var(--card-border)] text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 flex items-center"
             >
-              {view}
+              {currentViewLabel}
+              <svg
+                className="w-4 h-4 ml-2 -mr-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </button>
-          ))}
-
-          {/* Botão Nova Consulta com estilo e ícone do HTML */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-36 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-md shadow-lg z-10">
+                {(Object.keys(viewMap) as ViewKey[]).map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => {
+                      onView(viewMap[key]);
+                      setIsDropdownOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5"
+                  >
+                    {key}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <button
             onClick={onNewAppointment}
-            className="px-3 py-1 bg-green-600 text-white rounded-md text-sm font-medium flex items-center"
+            className="px-3 py-2 bg-[var(--accent)] text-[var(--accent-foreground)] rounded-md text-sm font-medium flex items-center shadow-sm hover:opacity-90 transition-opacity"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1"
+              className="h-4 w-4 mr-1.5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              strokeWidth={2}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"
               />
             </svg>

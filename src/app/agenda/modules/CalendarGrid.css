@@ -1,0 +1,99 @@
+/* --- GERAL --- */
+.fc {
+  background-color: transparent !important;
+  color: var(--text-primary);
+  border: none !important;
+}
+
+/* --- BARRA DE FERRAMENTAS --- */
+.fc-toolbar {
+  border-bottom: 1px solid var(--card-border);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.fc-toolbar-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.fc-button-group button {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s ease-in-out;
+}
+.fc-button-group button:hover {
+  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.fc-button-primary:not(:disabled).fc-button-active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-foreground);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* --- CABEÇALHO DOS DIAS --- */
+.fc-col-header-cell {
+  border: none;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* --- LINHAS DA GRADE --- */
+.fc-view,
+.fc-scrollgrid {
+  border: none !important;
+}
+
+.fc-timegrid-slot,
+.fc-daygrid-day {
+  border: none !important;
+}
+
+.fc-timegrid-col,
+.fc-daygrid-day {
+  border-left: 1px solid var(--card-border) !important;
+}
+
+.fc-timegrid-slots tr {
+  border-bottom: 1px solid var(--card-border) !important;
+}
+
+/* --- COLUNA DE HORÁRIOS --- */
+.fc-timegrid-axis-frame {
+  border-right: 1px solid var(--card-border) !important;
+}
+
+.fc-timegrid-axis-cushion {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+/* --- COLUNA DE HOJE --- */
+.fc-day-today {
+  background-color: var(--accent-bg, rgba(79, 70, 229, 0.03)) !important;
+}
+
+/* Ajustes gerais dos eventos */
+.fc-event {
+  box-shadow: none !important;
+}
+
+.fc-event:focus,
+.fc-event:hover {
+  outline: 0;
+  filter: brightness(1.08);
+}
+
+/* Barra de seleção ao arrastar */
+.fc-highlight {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+}

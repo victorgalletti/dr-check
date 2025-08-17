@@ -1,108 +1,98 @@
 "use client";
 
 import React from "react";
-
 import { Appointment } from "../types/types";
 
 interface AppointmentTableProps {
-  // A propriedade appointments agora é opcional
   appointments?: Appointment[];
   date: string;
 }
 
-// Adicionado um valor por defeito ([]) para a propriedade appointments
 const AppointmentTable: React.FC<AppointmentTableProps> = ({
   appointments = [],
   date,
 }) => {
-  // Função para determinar a cor do status
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Cancelada":
-        return "bg-red-100 text-red-800";
+        return "bg-[var(--danger-bg)] text-[var(--danger-color)]";
       case "Confirmada":
-        return "bg-green-100 text-green-800";
+        return "bg-[var(--success-bg)] text-[var(--success-color)]";
       case "Aguardando":
         return "bg-yellow-100 text-yellow-800";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-black/5 text-[var(--text-secondary)]";
     }
   };
 
   return (
-    // Wrapper com sombra e padding
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">
+    <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-4 sm:p-6 border border-[var(--card-border)]">
+      <h3 className="text-lg font-medium text-[var(--text-primary)] mb-4">
         Consultas de Hoje ({date})
       </h3>
 
-      {/* O wrapper da tabela agora usa overflow-hidden */}
-      <div className="overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-[var(--card-border)]">
+          <thead className="bg-black/5 dark:bg-white/5">
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
               >
                 Paciente
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
               >
                 Horário
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
               >
                 Tipo
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
               >
                 Status
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
               >
                 Ações
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {/* Adicionada uma verificação para exibir uma mensagem se não houver consultas */}
+          <tbody className="bg-[var(--card-bg)] divide-y divide-[var(--card-border)]">
             {appointments.length > 0 ? (
               appointments.map((appointment) => (
                 <tr key={appointment.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-medium">
+                      <div className="h-10 w-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center text-[var(--text-primary)] font-medium">
                         {appointment.patient.initials}
                       </div>
-                      {/* A margem foi movida para este div, como no novo layout */}
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-[var(--text-primary)]">
                           {appointment.patient.name}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-[var(--text-secondary)]">
                           {appointment.patient.email}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {/* Texto envolvido por um div, como no novo layout */}
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-[var(--text-primary)]">
                       {appointment.time}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {/* Texto envolvido por um div */}
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-[var(--text-primary)]">
                       {appointment.type}
                     </div>
                   </td>
@@ -115,13 +105,12 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({
                       {appointment.status}
                     </span>
                   </td>
-                  {/* Célula de ações com as classes e botões atualizados */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <div className="flex space-x-2">
-                      <button className="text-indigo-600 hover:text-indigo-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">
+                    <div className="flex items-center space-x-4">
+                      <button className="text-[var(--accent)] hover:opacity-75 transition-opacity">
                         Detalhes
                       </button>
-                      <button className="text-gray-600 hover:text-gray-900">
+                      <button className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
                         Reagendar
                       </button>
                     </div>
@@ -129,11 +118,10 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({
                 </tr>
               ))
             ) : (
-              // Mensagem a ser exibida se a lista de consultas estiver vazia
               <tr>
                 <td
                   colSpan={5}
-                  className="px-6 py-4 text-center text-sm text-gray-500"
+                  className="px-6 py-8 text-center text-sm text-[var(--text-secondary)]"
                 >
                   Nenhuma consulta para hoje.
                 </td>

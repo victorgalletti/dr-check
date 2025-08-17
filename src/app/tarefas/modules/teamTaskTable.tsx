@@ -15,30 +15,33 @@ interface TeamTasksTableProps {
 }
 
 const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
+  // Função atualizada com classes para o modo escuro
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "Alta":
-        return "bg-red-100 text-red-800";
+        return "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300";
       case "Média":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300";
       case "Baixa":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }
   };
 
+  // Função atualizada com classes para o modo escuro
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Em Andamento":
-        return "bg-blue-100 text-blue-800";
+        return "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300";
       case "Pendente":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }
   };
 
+  // Cores sólidas que funcionam bem em ambos os modos
   const getAssigneeColor = (initials: string) => {
     switch (initials) {
       case "CS":
@@ -54,45 +57,46 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      {/* Tabela adaptada com variáveis de CSS para o tema */}
+      <table className="min-w-full divide-y divide-[var(--card-border)]">
+        <thead className="bg-black/5 dark:bg-white/5">
           <tr>
             <th
               scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
             >
               Tarefa
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
             >
               Responsável
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
             >
               Prioridade
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
             >
               Vencimento
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
             >
               Status
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="divide-y divide-[var(--card-border)]">
           {tasks.map((task) => (
-            <tr key={task.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <tr key={task.id} className="hover:bg-gray-500/10">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-primary)]">
                 {task.task}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
@@ -105,7 +109,7 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
                     {task.initials}
                   </div>
                   <div className="ml-2">
-                    <div className="text-sm font-medium text-gray-900">
+                    <div className="text-sm font-medium text-[var(--text-primary)]">
                       {task.assignee}
                     </div>
                   </div>
@@ -120,7 +124,7 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
                   {task.priority}
                 </span>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-primary)]">
                 {task.dueDate}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">

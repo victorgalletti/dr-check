@@ -82,7 +82,7 @@ export default function Sidebar() {
             aria-label="Alternar menu"
             className={`${
               theme === "dark" ? "text-[var(--foreground)]" : "text-gray-500"
-            } hover:text-green-500 transition hidden md:block text-xl`}
+            } hover:text-green-500 transition hidden md:block text-2xl`}
           >
             <FaBars />
           </button>
@@ -91,7 +91,7 @@ export default function Sidebar() {
             aria-label="Fechar menu mobile"
             className={`${
               theme === "dark" ? "text-[var(--foreground)]" : "text-gray-500"
-            } hover:text-green-500 transition md:hidden text-xl`}
+            } hover:text-green-500 transition md:hidden text-2xl`}
           >
             <FaTimes />
           </button>

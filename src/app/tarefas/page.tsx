@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import Header from "@/components/header/header";
 import TaskFilterButtons from "./modules/taskFilterButton";
 import TaskSearchInput from "./modules/taskSearchInput";
 import NewTaskButton from "./modules/newTaskButton";
 import TeamTasksTable from "./modules/teamTaskTable";
+import { useTheme } from "@/app/contexts/themeContext"; // Importar o hook do tema
 
 // --- Tipos de Dados ---
 interface Task {
@@ -50,30 +52,36 @@ const TaskItem: React.FC<TaskItemProps> = ({
   let priorityColorClass = "";
   switch (task.priority) {
     case "Alta Prioridade":
-      priorityColorClass = "bg-red-100 text-red-800";
+      // Adicionadas classes 'dark:' para o modo escuro
+      priorityColorClass =
+        "bg-[var(--danger-bg)] text-[var(--danger-color)] dark:bg-[var(--danger-bg)] dark:text-[var(--danger-color)]";
       break;
     case "Média Prioridade":
       priorityColorClass = "bg-yellow-100 text-yellow-800";
       break;
     case "Baixa Prioridade":
-      priorityColorClass = "bg-green-100 text-green-800";
+      priorityColorClass = "bg-[var(--success-bg)] text-[var(--success-color)]";
       break;
     case "Concluída":
-      priorityColorClass = "bg-gray-100 text-gray-800";
+      priorityColorClass =
+        "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
       break;
     default:
-      priorityColorClass = "bg-gray-100 text-gray-800";
+      priorityColorClass =
+        "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
   }
   return (
     <div
-      className={`p-6 hover:bg-gray-50 flex items-start ${
-        task.completed ? "bg-gray-50" : ""
+      className={`p-6 hover:bg-gray-500/10 flex items-start ${
+        // Fundo sutil para tarefas completas
+        task.completed ? "bg-gray-500/5" : ""
       }`}
     >
       <div className="flex-shrink-0 mt-1">
         <input
           type="checkbox"
-          className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+          // Usando variáveis para cor de acento e borda
+          className="h-5 w-5 rounded border-[var(--card-border)] bg-transparent text-[var(--accent)] focus:ring-[var(--accent)]"
           checked={task.completed}
           onChange={() => onToggleComplete(task.id)}
         />
@@ -83,7 +91,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <div>
             <h4
               className={`text-lg font-medium ${
-                task.completed ? "text-gray-500 line-through" : "text-gray-900"
+                // Usando variáveis para cor do texto primário e secundário
+                task.completed
+                  ? "text-[var(--text-secondary)] line-through"
+                  : "text-[var(--text-primary)]"
               }`}
             >
               {task.title}
@@ -94,12 +105,15 @@ const TaskItem: React.FC<TaskItemProps> = ({
               >
                 {task.priority}
               </span>
-              <span className="ml-2 text-sm text-gray-500">{task.dueDate}</span>
+              <span className="ml-2 text-sm text-[var(--text-secondary)]">
+                {task.dueDate}
+              </span>
             </div>
           </div>
           <div className="flex space-x-2">
             <button
-              className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
+              // Usando variável para cor de acento
+              className="text-[var(--accent)] hover:opacity-80 text-sm font-medium"
               onClick={() =>
                 task.completed ? onToggleComplete(task.id) : onEdit(task.id)
               }
@@ -107,7 +121,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
               {task.completed ? "Reabrir" : "Editar"}
             </button>
             <button
-              className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+              // Usando variáveis para cores de texto
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm font-medium"
               onClick={() => onDelete(task.id)}
             >
               Excluir
@@ -116,7 +131,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
         </div>
         <div
           className={`mt-2 text-sm ${
-            task.completed ? "text-gray-500" : "text-gray-700"
+            // Usando variável para cor de texto secundário
+            task.completed
+              ? "text-[var(--text-secondary)]/80"
+              : "text-[var(--text-secondary)]"
           }`}
         >
           <p>{task.description}</p>
@@ -132,8 +150,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
             </div>
           </div>
           <div className="ml-2">
-            <p className="text-sm font-medium text-gray-900">{task.assignee}</p>
-            <p className="text-xs text-gray-500">{task.createdAt}</p>
+            <p className="text-sm font-medium text-[var(--text-primary)]">
+              {task.assignee}
+            </p>
+            <p className="text-xs text-[var(--text-secondary)]">
+              {task.createdAt}
+            </p>
           </div>
         </div>
       </div>
@@ -143,6 +165,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
 // --- PÁGINA PRINCIPAL ---
 const TarefasPage: React.FC = () => {
+  const { theme } = useTheme(); // Usa o contexto para obter o tema atual
   const [activeFilter, setActiveFilter] = useState("Todas");
   const [searchValue, setSearchValue] = useState("");
   const [tasks, setTasks] = useState<Task[]>([
@@ -252,60 +275,63 @@ const TarefasPage: React.FC = () => {
   const handleNewTask = () => console.log("Criar nova tarefa");
 
   return (
-    <main className="flex-1 overflow-y-auto bg-gray-50 p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Controles e Filtros */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center mb-4 md:mb-0">
-              <h3 className="text-xl font-semibold text-gray-800 mr-4">
-                Minhas Tarefas
-              </h3>
-              <TaskFilterButtons
-                activeFilter={activeFilter}
-                onFilterChange={setActiveFilter}
-              />
-            </div>
-            <div className="flex space-x-2">
-              <TaskSearchInput
-                searchValue={searchValue}
-                onSearchChange={setSearchValue}
-              />
-              <NewTaskButton onClick={handleNewTask} />
-            </div>
-          </div>
-        </div>
-
-        {/* Lista de Tarefas */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
-          <div className="divide-y divide-gray-200">
-            {filteredTasks.length > 0 ? (
-              filteredTasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  onToggleComplete={handleToggleComplete}
-                  onEdit={handleEditTask}
-                  onDelete={handleDeleteTask}
+    <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
+      <Header title="Tarefas" />
+      <main className="p-4 sm:p-6">
+        <div className="max-w-full mx-auto">
+          {/* Controles e Filtros */}
+          <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-6 mb-6 border border-[var(--card-border)]">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center mb-4 md:mb-0">
+                <h3 className="text-xl font-semibold text-[var(--text-primary)] mr-4">
+                  Minhas Tarefas
+                </h3>
+                <TaskFilterButtons
+                  activeFilter={activeFilter}
+                  onFilterChange={setActiveFilter}
                 />
-              ))
-            ) : (
-              <div className="p-6 text-center text-gray-500">
-                Nenhuma tarefa encontrada.
               </div>
-            )}
+              <div className="flex space-x-2">
+                <TaskSearchInput
+                  searchValue={searchValue}
+                  onSearchChange={setSearchValue}
+                />
+                <NewTaskButton onClick={handleNewTask} />
+              </div>
+            </div>
+          </div>
+
+          {/* Lista de Tarefas */}
+          <div className="bg-[var(--card-bg)] rounded-lg shadow-sm overflow-hidden mb-6 border border-[var(--card-border)]">
+            <div className="divide-y divide-[var(--card-border)]">
+              {filteredTasks.length > 0 ? (
+                filteredTasks.map((task) => (
+                  <TaskItem
+                    key={task.id}
+                    task={task}
+                    onToggleComplete={handleToggleComplete}
+                    onEdit={handleEditTask}
+                    onDelete={handleDeleteTask}
+                  />
+                ))
+              ) : (
+                <div className="p-6 text-center text-[var(--text-secondary)]">
+                  Nenhuma tarefa encontrada.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Tarefas da Equipe */}
+          <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-6 border border-[var(--card-border)]">
+            <h3 className="text-lg font-medium text-[var(--text-primary)] mb-4">
+              Tarefas da Equipe
+            </h3>
+            <TeamTasksTable tasks={teamTasks} />
           </div>
         </div>
-
-        {/* Tarefas da Equipe */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Tarefas da Equipe
-          </h3>
-          <TeamTasksTable tasks={teamTasks} />
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 

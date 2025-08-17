@@ -30,7 +30,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   let priorityColorClass = "";
   switch (task.priority) {
     case "Alta Prioridade":
-      priorityColorClass = "bg-red-100 text-red-800";
+      priorityColorClass = "bg-[var(--danger-bg)] text-red-100";
       break;
     case "Média Prioridade":
       priorityColorClass = "bg-yellow-100 text-yellow-800";
