@@ -90,8 +90,12 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
           {icon}
         </div>
         <div className="ml-4">
-          <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="text-2xl font-semibold text-gray-900">{value}</p>
+          <p className="text-sm font-medium text-[var(--text-secondary)]">
+            {title}
+          </p>
+          <p className="text-2xl font-semibold text-[var(--text-primary)]">
+            {value}
+          </p>
         </div>
       </div>
     </div>

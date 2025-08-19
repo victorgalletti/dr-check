@@ -3,7 +3,7 @@
 :root {
   /* --- TEMA CLARO (Ajustado conforme suas regras) --- */
 
-  --background: #ffffff; /* Equivalente a bg-white */
+  --background: #f7f7ea; /* Equivalente a bg-white */
   --foreground: #111827; /* Equivalente a text-gray-900 */
 
   --card-bg: #f9fafb; /* Equivalente a bg-gray-50 */
@@ -23,6 +23,13 @@
   --payment-bg: #f3e8ff; /* purple-100 */
   --danger-color: #dc2626; /* red-600 */
   --danger-bg: #fee2e2; /* red-100 */
+  --info-border: #bfdbfe; /* blue-200 */
+  --success-border: #bbf7d0; /* green-200 */
+  --payment-border: #e9d5ff; /* purple-200 */
+  --danger-border: #fecaca; /* red-200 */
+  --warning-color: #92400e; /* yellow-800 */
+  --warning-bg: #fef9c3; /* yellow-100 */
+  --warning-border: #fcd34d; /* yellow-300 */
 }
 
 :root {
@@ -57,13 +64,17 @@
   --accent-foreground: #f0f0f0; /* Shark */
 
   --info-color: #60a5fa; /* blue-400 */
-  --info-bg: rgba(59, 130, 246, 0.15);
+  --info-bg: rgba(30, 110, 238, 0.226);
   --success-color: #16a34a; /* green-400 */
-  --success-bg: rgba(74, 222, 128, 0.15);
+  --success-bg: rgba(20, 199, 86, 0.301);
   --payment-color: #c084fc; /* purple-400 */
   --payment-bg: rgba(192, 132, 252, 0.15);
   --danger-color: #f87171; /* red-400 */
-  --danger-bg: rgba(248, 113, 113, 0.15);
+  --danger-bg: rgba(221, 54, 54, 0.247);
+  --info-border: rgba(59, 130, 246, 0.2);
+  --success-border: rgba(74, 222, 128, 0.2);
+  --payment-border: rgba(192, 132, 252, 0.2);
+  --danger-border: rgba(248, 113, 113, 0.2);
 }
 
 body {

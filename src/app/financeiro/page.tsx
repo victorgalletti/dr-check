@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Header from "@/components/header/header";
 import SummaryCard, {
   PlusIcon,
   MinusIcon,
@@ -125,107 +126,117 @@ const FinanceiroPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gray-50">
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {/* Resumo Financeiro */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4 md:mb-0">
-              Resumo Financeiro - Abril 2025
-            </h3>
-            <FilterButtons
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
-            />
-          </div>
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <SummaryCard
-              title="Receitas"
-              value="R$ 45.850,00"
-              icon={<PlusIcon />}
-              bgColor="bg-green-50"
-              borderColor="border-green-200"
-              iconBgColor="bg-green-500"
-            />
-            <SummaryCard
-              title="Despesas"
-              value="R$ 28.320,00"
-              icon={<MinusIcon />}
-              bgColor="bg-red-50"
-              borderColor="border-red-200"
-              iconBgColor="bg-red-500"
-            />
-            <SummaryCard
-              title="Saldo"
-              value="R$ 17.530,00"
-              icon={<BalanceIcon />}
-              bgColor="bg-blue-50"
-              borderColor="border-blue-200"
-              iconBgColor="bg-blue-500"
-            />
-            <SummaryCard
-              title="A Receber"
-              value="R$ 12.450,00"
-              icon={<DueIcon />}
-              bgColor="bg-purple-50"
-              borderColor="border-purple-200"
-              iconBgColor="bg-purple-500"
-            />
-          </div>
-        </div>
-
-        {/* Gráfico Financeiro */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Desempenho Financeiro
-          </h3>
-          <div className="h-64 bg-gray-100 rounded-md flex items-center justify-center">
-            <p className="text-gray-500">Gráfico de Desempenho Financeiro</p>
-          </div>
-        </div>
-
-        {/* Abas e Conteúdo */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
-          <TabsNavigation
-            tabs={[
-              { name: "Lançamentos" },
-              { name: "Faturamento" },
-              { name: "Comissões" },
-              { name: "Relatórios" },
-            ]}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-          />
-          {activeTab === "Lançamentos" && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">
-                  Lançamentos Recentes
+    <div className="min-h-screen" style={{ background: "var(--background)" }}>
+      <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
+        <Header title="Financeiro" />
+        <main
+          className="p-4 sm:p-6 md:p-8"
+          style={{ background: "var(--background)" }}
+        >
+          <div className="w-full space-y-6 sm:space-y-8">
+            {/* Resumo Financeiro */}
+            <div className="bg-[var(--card-bg)] rounded-2xl shadow-sm p-4 sm:p-6 border border-[var(--card-border)]">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4 md:mb-0">
+                  Resumo Financeiro - Abril 2025
                 </h3>
-                <button className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium flex items-center">
-                  <PlusIcon />
-                  <span className="ml-1">Novo Lançamento</span>
-                </button>
+                <FilterButtons
+                  activeFilter={activeFilter}
+                  onFilterChange={setActiveFilter}
+                />
               </div>
-              <DataTable columns={columns} data={financialEntries} />
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+                <SummaryCard
+                  title="Receitas"
+                  value="R$ 45.850,00"
+                  icon={<PlusIcon />}
+                  bgColor="bg-[var(--success-bg)]"
+                  borderColor="border-[var(--success-border)]"
+                  iconBgColor="bg-[var(--success-color)]"
+                />
+                <SummaryCard
+                  title="Despesas"
+                  value="R$ 28.320,00"
+                  icon={<MinusIcon />}
+                  bgColor="bg-[var(--danger-bg)]"
+                  borderColor="border-[var(--danger-border)]"
+                  iconBgColor="bg-[var(--danger-color)]"
+                />
+                <SummaryCard
+                  title="Saldo"
+                  value="R$ 17.530,00"
+                  icon={<BalanceIcon />}
+                  bgColor="bg-[var(--info-bg)]"
+                  borderColor="border-[var(--info-border)]"
+                  iconBgColor="bg-[var(--info-color)]"
+                />
+                <SummaryCard
+                  title="A Receber"
+                  value="R$ 12.450,00"
+                  icon={<DueIcon />}
+                  bgColor="bg-[var(--payment-bg)]"
+                  borderColor="border-[var(--payment-border)]"
+                  iconBgColor="bg-[var(--payment-color)]"
+                />
+              </div>
             </div>
-          )}
-        </div>
 
-        {/* Faturamento por Convênio */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Faturamento por Convênio
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="h-64 bg-gray-100 rounded-md flex items-center justify-center">
-              <p className="text-gray-500">
-                Gráfico de Faturamento por Convênio
-              </p>
+            {/* Gráfico Financeiro */}
+            <div className="bg-[var(--card-bg)] rounded-2xl shadow-sm p-4 sm:p-6 border border-[var(--card-border)]">
+              <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)] mb-4">
+                Desempenho Financeiro
+              </h3>
+              <div className="h-64 bg-[var(--background)] rounded-md flex items-center justify-center">
+                <p className="text-[var(--text-secondary)]">
+                  Gráfico de Desempenho Financeiro
+                </p>
+              </div>
             </div>
-            <BillingByInsuranceTable data={insuranceData} />
+
+            {/* Abas e Conteúdo */}
+            <div className="bg-[var(--card-bg)] rounded-2xl shadow-sm overflow-hidden border border-[var(--card-border)]">
+              <TabsNavigation
+                tabs={[
+                  { name: "Lançamentos" },
+                  { name: "Faturamento" },
+                  { name: "Comissões" },
+                  { name: "Relatórios" },
+                ]}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+              {activeTab === "Lançamentos" && (
+                <div className="p-4 sm:p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">
+                      Lançamentos Recentes
+                    </h3>
+                    <button className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium flex items-center">
+                      <PlusIcon />
+                      <span className="ml-1">Novo Lançamento</span>
+                    </button>
+                  </div>
+                  <DataTable columns={columns} data={financialEntries} />
+                </div>
+              )}
+            </div>
+
+            {/* Faturamento por Convênio */}
+            <div className="bg-[var(--card-bg)] rounded-2xl shadow-sm p-4 sm:p-6 border border-[var(--card-border)]">
+              <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)] mb-4">
+                Faturamento por Convênio
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="h-64 bg-[var(--background)] rounded-md flex items-center justify-center">
+                  <p className="text-[var(--text-secondary)]">
+                    Gráfico de Faturamento por Convênio
+                  </p>
+                </div>
+                <BillingByInsuranceTable data={insuranceData} />
+              </div>
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

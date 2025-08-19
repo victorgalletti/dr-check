@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import Sidebar from "@/components/sidebar/sidebar";
+import Header from "@/components/header/header";
+import { MdWarning } from "react-icons/md";
 
 // ==== Início: StatCard
 type StatCardProps = {
@@ -13,20 +14,24 @@ type StatCardProps = {
 
 const StatCard: React.FC<StatCardProps> = ({
   icon,
-  bgColor = "bg-blue-500",
+  bgColor = "bg-[var(--accent)]", // Cor padrão agora usa uma variável
   title,
   value,
 }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-4 flex items-center gap-4 hover:translate-y-px transition">
+    <div className="bg-[var(--card-bg)] rounded-2xl shadow-sm p-4 flex items-center gap-4 hover:translate-y-px transition border border-[var(--card-border)]">
       <div
         className={`flex h-12 w-12 items-center justify-center rounded-full ${bgColor}`}
       >
         {icon}
       </div>
       <div className="flex flex-col">
-        <span className="text-sm font-medium text-gray-500">{title}</span>
-        <span className="text-2xl font-bold text-gray-900">{value}</span>
+        <span className="text-sm font-medium text-[var(--text-secondary)]">
+          {title}
+        </span>
+        <span className="text-2xl font-bold text-[var(--text-primary)]">
+          {value}
+        </span>
       </div>
     </div>
   );
@@ -44,7 +49,7 @@ type ActivityItemProps = {
 
 const ActivityItem: React.FC<ActivityItemProps> = ({
   icon,
-  iconBgColor = "bg-gray-100",
+  iconBgColor = "bg-[var(--hover-bg)]",
   title,
   subtitle,
   timestamp,
@@ -57,9 +62,17 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
         {icon}
       </div>
       <div className="flex-1">
-        <p className="text-sm font-medium text-gray-900">{title}</p>
-        {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
-        {timestamp && <p className="text-xs text-gray-400 mt-1">{timestamp}</p>}
+        <p className="text-sm font-medium text-[var(--text-primary)]">
+          {title}
+        </p>
+        {subtitle && (
+          <p className="text-sm text-[var(--text-secondary)]">{subtitle}</p>
+        )}
+        {timestamp && (
+          <p className="text-xs text-[var(--text-secondary)] opacity-75 mt-1">
+            {timestamp}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -72,11 +85,15 @@ type AlertNoticeProps = {
   variant?: "info" | "warning" | "success" | "error";
 };
 
+// Objeto de estilos agora usa variáveis de tema
 const alertStyles = {
-  info: "bg-blue-100 text-blue-800 border-blue-300",
-  warning: "bg-yellow-100 text-yellow-800 border-yellow-300",
-  success: "bg-green-100 text-green-800 border-green-300",
-  error: "bg-red-100 text-red-800 border-red-300",
+  info: "bg-[var(--info-bg)] text-[var(--info-color)] border-[var(--info-border)]",
+  warning:
+    "bg-[var(--warning-bg)] text-[var(--warning-color)] border-[var(--warning-border)]",
+  success:
+    "bg-[var(--success-bg)] text-[var(--success-color)] border-[var(--success-border)]",
+  error:
+    "bg-[var(--danger-bg)] text-[var(--danger-color)] border-[var(--danger-border)]",
 };
 
 const AlertNotice: React.FC<AlertNoticeProps> = ({
@@ -88,7 +105,7 @@ const AlertNotice: React.FC<AlertNoticeProps> = ({
       className={`mt-6 rounded-md p-4 border ${alertStyles[variant]} flex items-start gap-3`}
     >
       <svg
-        className="h-5 w-5 mt-0.5"
+        className="h-5 w-5 mt-0.5 flex-shrink-0"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -121,15 +138,21 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
   onCtaClick,
 }) => {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm flex items-center justify-between">
+    <div className="bg-[var(--card-bg)] p-6 rounded-2xl shadow-sm flex items-center justify-between border border-[var(--card-border)]">
       <div>
-        <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
-        {subtitle && <p className="text-sm text-gray-500 mt-1">{subtitle}</p>}
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)]">
+          {title}
+        </h2>
+        {subtitle && (
+          <p className="text-sm text-[var(--text-secondary)] mt-1">
+            {subtitle}
+          </p>
+        )}
       </div>
       {ctaText && (
         <button
           onClick={onCtaClick}
-          className="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 transition"
+          className="inline-flex items-center rounded-md bg-[var(--success-color)] px-4 py-2 text-white hover:brightness-95 transition"
         >
           {ctaText}
         </button>
@@ -139,22 +162,6 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
 };
 // ==== Fim: WelcomeCard
 
-// ==== Início: Header
-type HeaderProps = {
-  title: string;
-  rightSlot?: React.ReactNode;
-};
-
-const Header: React.FC<HeaderProps> = ({ title, rightSlot }) => {
-  return (
-    <header className="bg-white p-4 shadow-sm flex items-center justify-between">
-      <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-      <div className="flex items-center gap-2">{rightSlot}</div>
-    </header>
-  );
-};
-// ==== Fim: Header
-
 // ==== Início: Página Estoque
 const EstoquePage: React.FC = () => {
   const statCardsData = [
@@ -162,7 +169,6 @@ const EstoquePage: React.FC = () => {
       icon: (
         <svg
           className="h-6 w-6 text-white"
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -175,7 +181,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      bgColor: "bg-blue-500",
+      bgColor: "bg-[var(--info-color)]",
       title: "Itens em Estoque",
       value: 124,
     },
@@ -183,7 +189,6 @@ const EstoquePage: React.FC = () => {
       icon: (
         <svg
           className="h-6 w-6 text-white"
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -196,7 +201,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      bgColor: "bg-purple-500",
+      bgColor: "bg-[var(--payment-color)]",
       title: "Valor em Estoque",
       value: "R$ 18.240",
     },
@@ -204,7 +209,6 @@ const EstoquePage: React.FC = () => {
       icon: (
         <svg
           className="h-6 w-6 text-white"
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -225,7 +229,6 @@ const EstoquePage: React.FC = () => {
       icon: (
         <svg
           className="h-6 w-6 text-white"
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -238,7 +241,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      bgColor: "bg-green-500",
+      bgColor: "bg-[var(--success-color)]",
       title: "Itens OK (Sem Risco)",
       value: 97,
     },
@@ -248,8 +251,7 @@ const EstoquePage: React.FC = () => {
     {
       icon: (
         <svg
-          className="h-4 w-4 text-blue-600"
-          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-[var(--info-color)]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -262,7 +264,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      iconBgColor: "bg-blue-100",
+      iconBgColor: "bg-[var(--info-bg)]",
       title: "Entrada de material",
       subtitle: "Luvas Nitrílicas (200 un)",
       timestamp: "Há 10 minutos",
@@ -270,8 +272,7 @@ const EstoquePage: React.FC = () => {
     {
       icon: (
         <svg
-          className="h-4 w-4 text-green-600"
-          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-[var(--success-color)]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -284,7 +285,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      iconBgColor: "bg-green-100",
+      iconBgColor: "bg-[var(--success-bg)]",
       title: "Pedido confirmado",
       subtitle: "Máscaras Cirúrgicas (500 un) - Fornec. ABC",
       timestamp: "Há 25 minutos",
@@ -292,8 +293,7 @@ const EstoquePage: React.FC = () => {
     {
       icon: (
         <svg
-          className="h-4 w-4 text-purple-600"
-          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-[var(--payment-color)]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -306,7 +306,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      iconBgColor: "bg-purple-100",
+      iconBgColor: "bg-[var(--payment-bg)]",
       title: "Baixa por uso",
       subtitle: "Soro Fisiológico 0,9% (10 un)",
       timestamp: "Há 1 hora",
@@ -314,8 +314,7 @@ const EstoquePage: React.FC = () => {
     {
       icon: (
         <svg
-          className="h-4 w-4 text-red-600"
-          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-[var(--danger-color)]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -328,7 +327,7 @@ const EstoquePage: React.FC = () => {
           />
         </svg>
       ),
-      iconBgColor: "bg-red-100",
+      iconBgColor: "bg-[var(--danger-bg)]",
       title: "Pedido cancelado",
       subtitle: "Gaze Estéril (100 un)",
       timestamp: "Há 2 horas",
@@ -342,77 +341,66 @@ const EstoquePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Conteúdo com padding esquerdo dinâmico no desktop (segue colapso da sidebar) */}
+    <div className="min-h-screen" style={{ background: "var(--background)" }}>
       <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
-        <header className="bg-white p-4 shadow-sm flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-800">Estoque</h2>
-          <div className="flex items-center gap-2">
-            <button className="px-3 py-2 text-sm rounded-md bg-white text-gray-700 border border-gray-300 hover:bg-gray-50">
-              Exportar
-            </button>
-            <button className="px-3 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700">
-              Novo Pedido
-            </button>
-          </div>
-        </header>
-
-        <main className="bg-gray-50 p-4 sm:p-6 md:p-8">
+        <Header title="Estoque" />
+        <main className="p-4 sm:p-6 md:p-8">
           <div className="w-full space-y-6 sm:space-y-8">
             <WelcomeCard
               title="Controle de Estoque"
               subtitle="Visão geral dos insumos e materiais da clínica"
             />
 
-            {/* Stat cards ocupando a largura disponível */}
             <div className="grid gap-4 sm:gap-6 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
               {statCardsData.map((card, index) => (
                 <StatCard key={index} {...card} />
               ))}
             </div>
 
-            {/* Grid 12 colunas para melhor uso de telas largas */}
             <div className="grid grid-cols-12 gap-4 sm:gap-6">
-              {/* Movimentação + Tabela */}
-              <div className="col-span-12 xl:col-span-8 2xl:col-span-9 bg-white rounded-2xl shadow-sm p-4 sm:p-6">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
+              <div className="col-span-12 xl:col-span-8 2xl:col-span-9 bg-[var(--card-bg)] rounded-2xl shadow-sm p-4 sm:p-6 border border-[var(--card-border)]">
+                <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)] mb-4">
                   Movimentação do Estoque (30 dias)
                 </h3>
-                <div className="h-[300px] lg:h-[360px] rounded-lg border border-dashed border-gray-200 flex items-center justify-center bg-gray-50">
-                  <p className="text-sm text-gray-500">
+                <div className="h-[300px] lg:h-[360px] rounded-lg border border-dashed border-[var(--card-border)] flex items-center justify-center bg-[var(--background)]">
+                  <p className="text-sm text-[var(--text-secondary)]">
                     Gráfico de Movimentação (placeholder)
                   </p>
                 </div>
 
-                <h4 className="text-base sm:text-lg font-semibold text-gray-900 mt-6 mb-4">
+                <h4 className="text-base sm:text-lg font-semibold text-[var(--text-primary)] mt-6 mb-4">
                   Itens com Nível Crítico
                 </h4>
-                <div className="overflow-auto rounded-lg border border-gray-200">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                <div className="overflow-auto rounded-lg border border-[var(--card-border)]">
+                  <table className="min-w-full divide-y divide-[var(--card-border)]">
+                    <thead className="bg-[var(--background)]">
                       <tr>
-                        <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">
                           Item
                         </th>
-                        <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">
                           Em estoque
                         </th>
-                        <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">
                           Mínimo
                         </th>
                         <th className="px-4 sm:px-6 py-3"></th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200 text-sm">
+                    <tbody className="bg-[var(--card-bg)] divide-y divide-[var(--card-border)] text-sm">
                       {criticalItems.map((row) => (
                         <tr key={row.item}>
-                          <td className="px-4 sm:px-6 py-4 text-gray-900">
+                          <td className="px-4 sm:px-6 py-4 text-[var(--text-primary)]">
                             {row.item}
                           </td>
-                          <td className="px-4 sm:px-6 py-4">{row.estoque}</td>
-                          <td className="px-4 sm:px-6 py-4">{row.minimo}</td>
+                          <td className="px-4 sm:px-6 py-4 text-[var(--text-primary)]">
+                            {row.estoque}
+                          </td>
+                          <td className="px-4 sm:px-6 py-4 text-[var(--text-primary)]">
+                            {row.minimo}
+                          </td>
                           <td className="px-4 sm:px-6 py-4 text-right">
-                            <button className="px-3 py-1.5 rounded-md text-xs bg-red-600 text-white hover:bg-red-700">
+                            <button className="px-3 py-1.5 rounded-md text-xs bg-[var(--danger-color)] text-white hover:brightness-95">
                               Repor
                             </button>
                           </td>
@@ -423,9 +411,8 @@ const EstoquePage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Últimas Atividades */}
-              <div className="col-span-12 xl:col-span-4 2xl:col-span-3 bg-white rounded-2xl shadow-sm p-4 sm:p-6">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
+              <div className="col-span-12 xl:col-span-4 2xl:col-span-3 bg-[var(--card-bg)] rounded-2xl shadow-sm p-4 sm:p-6 border border-[var(--card-border)]">
+                <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)] mb-4">
                   Últimas Atividades
                 </h3>
                 <div className="space-y-4">

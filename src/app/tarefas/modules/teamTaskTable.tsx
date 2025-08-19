@@ -19,11 +19,11 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "Alta":
-        return "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300";
+        return "bg-[var(--danger-bg)] text-[var(--danger-color)] dark:bg-[var(--danger-bg)] dark:text-[var(--danger-color)]";
       case "Média":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300";
+        return "bg-yellow-100 text-yellow-800";
       case "Baixa":
-        return "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300";
+        return "bg-[var(--success-bg)] text-[var(--success-color)] dark:bg-[var(--success-bg)] dark:text-[var(--success-color)]";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }
@@ -35,7 +35,9 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
       case "Em Andamento":
         return "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300";
       case "Pendente":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300";
+        return "bg-yellow-100 text-yellow-800";
+      case "Concluída":
+        return "bg-[var(--success-bg)] text-[var(--success-color)] "; //modificar depois
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }

@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import { EventContentArg } from "@fullcalendar/core";
+import { EventContentArg, DayHeaderContentArg } from "@fullcalendar/core";
 import { CalendarEvent } from "@/app/agenda/types/types";
 
 // Seus estilos personalizados para o calendário.
@@ -105,9 +105,36 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   events = [],
   date,
   view,
+  onView,
+  onNavigate,
   onSelectSlot,
   onSelectEvent,
 }) => {
+  const renderDayHeader = (arg: DayHeaderContentArg) => {
+    const dayOfWeek = arg.date.toLocaleDateString("pt-BR", {
+      weekday: "short",
+    });
+    const dayNumber = arg.date.getDate();
+    const formattedDayOfWeek = dayOfWeek.endsWith(".")
+      ? dayOfWeek
+      : `${dayOfWeek}.`;
+
+    const handleHeaderClick = () => {
+      onNavigate(arg.date); // Navega para a data clicada
+      onView("timeGridDay"); // Muda a visualização para "dia"
+    };
+
+    return (
+      <div
+        className="fc-custom-day-header"
+        onClick={handleHeaderClick}
+        style={{ cursor: "pointer" }}
+      >
+        <span className="fc-day-of-week">{formattedDayOfWeek}</span>
+        <span className="fc-day-number">{dayNumber}</span>
+      </div>
+    );
+  };
   const fcEvents = events.map((e) => ({
     id: e.id,
     title: e.title || e.patient,
@@ -121,7 +148,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     <div className="bg-[var(--card-bg)] rounded-lg shadow-sm overflow-hidden border border-[var(--card-border)]">
       <div className="h-[75vh] calendar-container">
         <FullCalendar
-          key={`${view}-${date.toISOString()}`} // Força a remontagem ao mudar de view ou data
+          key={`${view}-${date.toISOString()}`}
           plugins={[
             dayGridPlugin,
             timeGridPlugin,
@@ -131,7 +158,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           initialView={view}
           initialDate={date}
           events={fcEvents}
-          headerToolbar={false} // Oculta o header padrão, pois você tem o CalendarControls
+          headerToolbar={false}
           locale="pt-br"
           selectable={true}
           select={onSelectSlot}
@@ -139,13 +166,14 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           eventContent={renderEventContent}
           slotMinTime="08:00:00"
           slotMaxTime="18:00:00"
-          allDaySlot={false} // Oculta a linha "all-day"
+          allDaySlot={false}
           height="100%"
           dayHeaderFormat={{
             weekday: "short",
             day: "numeric",
             omitCommas: true,
           }}
+          dayHeaderContent={renderDayHeader}
         />
       </div>
     </div>

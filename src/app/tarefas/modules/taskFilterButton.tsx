@@ -16,10 +16,10 @@ const TaskFilterButtons: React.FC<TaskFilterButtonsProps> = ({
       {filters.map((filter) => (
         <button
           key={filter}
-          className={`px-3 py-1 rounded-md text-sm font-medium ${
+          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200 ${
             activeFilter === filter
-              ? "bg-indigo-600 text-white"
-              : "bg-indigo-100 text-indigo-700"
+              ? "bg-[var(--accent)] text-[var(--accent-foreground)] shadow-sm"
+              : "bg-[var(--card-border)] text-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-[var(--accent-foreground)]"
           }`}
           onClick={() => onFilterChange(filter)}
         >

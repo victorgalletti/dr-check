@@ -17,30 +17,28 @@ interface DataTableProps<T> {
 function DataTable<T>({ columns, data = [] }: DataTableProps<T>) {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-[var(--card-border)]">
+        <thead className="bg-[var(--background)]">
           <tr>
             {columns.map((column) => (
               <th
                 key={column.key}
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider"
               >
                 {column.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {/* Adicionada uma verificação para exibir uma mensagem se não houver dados. */}
+        <tbody className="bg-[var(--card-bg)] divide-y divide-[var(--card-border)]">
           {data.length > 0 ? (
             data.map((item, rowIndex) => (
               <tr key={rowIndex}>
-                {/* Idealmente, usar um ID único do 'item' se disponível */}
                 {columns.map((column) => (
                   <td
                     key={`${String(column.key)}-${rowIndex}`}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                    className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-primary)]"
                   >
                     {column.render
                       ? column.render(item)
@@ -50,11 +48,10 @@ function DataTable<T>({ columns, data = [] }: DataTableProps<T>) {
               </tr>
             ))
           ) : (
-            // Mensagem a ser exibida se a lista de dados estiver vazia.
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-6 py-4 text-center text-sm text-gray-500"
+                className="px-6 py-4 text-center text-sm text-[var(--text-secondary)]"
               >
                 Nenhum dado encontrado.
               </td>
