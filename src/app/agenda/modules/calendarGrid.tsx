@@ -11,7 +11,7 @@ import { EventContentArg, DayHeaderContentArg } from "@fullcalendar/core";
 import { CalendarEvent } from "@/app/agenda/types/types";
 
 // Seus estilos personalizados para o calendário.
-import "./CalendarGrid.css";
+import "./calendarGrid.css";
 
 interface CalendarGridProps {
   events?: CalendarEvent[];
