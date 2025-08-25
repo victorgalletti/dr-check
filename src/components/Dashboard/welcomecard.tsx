@@ -1,6 +1,6 @@
 // src/components/modules/dashboard/WelcomeCard.tsx
 import React from "react";
-import { useTheme } from "@/app/contexts/themeContext";
+import { useTheme } from "@/contexts/themeContext";
 
 interface WelcomeCardProps {
   title: string;

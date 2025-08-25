@@ -1,11 +1,9 @@
 import React from "react";
 
 interface StatusBadgeProps {
-  // A propriedade 'status' agora é opcional.
   status?: string;
 }
 
-// Adicionado um valor por defeito para a propriedade 'status'.
 const StatusBadge: React.FC<StatusBadgeProps> = ({
   status = "Desconhecido",
 }) => {

@@ -1,39 +1,39 @@
 // app/prontuario/[patientId]/_components/PatientRecordTabs.tsx
 
-'use client';
+"use client";
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from "react";
 import {
-  MdHistory,
-  MdVaccines,
-  MdScience,
-  MdFolder,
-  MdStickyNote2,
-  MdFavorite,
-  MdArticle,
-  MdShield,
-} from 'react-icons/md';
+  History,
+  Syringe,
+  FlaskConical,
+  Folder,
+  StickyNote,
+  Heart,
+  FileText,
+  ShieldCheck,
+} from "lucide-react";
 
-import { PatientData, Permissions } from '@/lib/utils';
+import { PatientData, Permissions } from "@/lib/utils";
 
-import { HistoricoTab } from './HistoricoTab';
-import { ReceitasTab } from './ReceitasTab';
-import { FichaTab } from './FichaTab';
-import { ExamesTab } from './ExamesTab';
-import { ArquivosTab } from './ArquivosTab';
-import { AnotacoesTab } from './AnotacoesTab';
-import { DocumentosTab } from './DocumentosTab';
-import { ConsentimentosTab } from './ConsentimentosTab';
+import { HistoricoTab } from "./HistoricoTab";
+import { ReceitasTab } from "./ReceitasTab";
+import { FichaTab } from "./FichaTab";
+import { ExamesTab } from "./ExamesTab";
+import { ArquivosTab } from "./ArquivosTab";
+import { AnotacoesTab } from "./AnotacoesTab";
+import { DocumentosTab } from "./DocumentosTab";
+import { ConsentimentosTab } from "./ConsentimentosTab";
 
 export type TabKey =
-  | 'historico'
-  | 'receitas'
-  | 'exames'
-  | 'arquivos'
-  | 'anotacoes'
-  | 'ficha'
-  | 'documentos'
-  | 'consentimentos';
+  | "historico"
+  | "receitas"
+  | "exames"
+  | "arquivos"
+  | "anotacoes"
+  | "ficha"
+  | "documentos"
+  | "consentimentos";
 
 interface TabPanelProps {
   tabKey: TabKey;
@@ -43,27 +43,36 @@ interface TabPanelProps {
 
 const TabPanel = ({ tabKey, data, permissions }: TabPanelProps) => {
   switch (tabKey) {
-    case 'historico':
+    case "historico":
       return <HistoricoTab data={data.historico} />;
-    case 'receitas':
+    case "receitas":
       return <ReceitasTab data={data.receitas} permissions={permissions} />;
-    case 'exames':
+    case "exames":
       return <ExamesTab data={data.exames} permissions={permissions} />;
-    case 'arquivos':
+    case "arquivos":
       return <ArquivosTab data={data.arquivos} permissions={permissions} />;
-    case 'anotacoes':
+    case "anotacoes":
       return <AnotacoesTab data={data.anotacoes} permissions={permissions} />;
-    case 'ficha':
+    case "ficha":
       return <FichaTab data={data.ficha} />;
-    case 'documentos':
+    case "documentos":
       return <DocumentosTab data={data.documentos} permissions={permissions} />;
-    case 'consentimentos':
-      return <ConsentimentosTab data={data.consentimentos} permissions={permissions} />;
+    case "consentimentos":
+      return (
+        <ConsentimentosTab
+          data={data.consentimentos}
+          permissions={permissions}
+        />
+      );
     default:
       return (
         <div className="p-4">
-          <h3 className="text-xl font-semibold text-[var(--text-primary)]">Aba não encontrada</h3>
-          <p className="mt-2 text-[var(--text-secondary)]">Ocorreu um erro ao carregar o conteúdo da aba.</p>
+          <h3 className="text-xl font-semibold text-[var(--text-primary)]">
+            Aba não encontrada
+          </h3>
+          <p className="mt-2 text-[var(--text-secondary)]">
+            Ocorreu um erro ao carregar o conteúdo da aba.
+          </p>
         </div>
       );
   }
@@ -72,14 +81,14 @@ const TabPanel = ({ tabKey, data, permissions }: TabPanelProps) => {
 const tabsMap: {
   [key in TabKey]: { title: string; icon: ReactNode };
 } = {
-  historico: { title: 'Histórico', icon: <MdHistory /> },
-  receitas: { title: 'Receitas', icon: <MdVaccines /> },
-  exames: { title: 'Exames', icon: <MdScience /> },
-  arquivos: { title: 'Arquivos', icon: <MdFolder /> },
-  anotacoes: { title: 'Anotações', icon: <MdStickyNote2 /> },
-  ficha: { title: 'Ficha Clínica', icon: <MdFavorite /> },
-  documentos: { title: 'Documentos', icon: <MdArticle /> },
-  consentimentos: { title: 'Consentimentos', icon: <MdShield /> },
+  historico: { title: "Histórico", icon: <History /> },
+  receitas: { title: "Receitas", icon: <Syringe /> },
+  exames: { title: "Exames", icon: <FlaskConical /> },
+  arquivos: { title: "Arquivos", icon: <Folder /> },
+  anotacoes: { title: "Anotações", icon: <StickyNote /> },
+  ficha: { title: "Ficha Clínica", icon: <Heart /> },
+  documentos: { title: "Documentos", icon: <FileText /> },
+  consentimentos: { title: "Consentimentos", icon: <ShieldCheck /> },
 };
 
 export interface PatientRecordTabsProps {
@@ -89,8 +98,15 @@ export interface PatientRecordTabsProps {
   permissions: Permissions;
 }
 
-export const PatientRecordTabs = ({ activeTab, onTabChange, data, permissions }: PatientRecordTabsProps) => {
-  const [currentTab, setCurrentTab] = useState<TabKey>(activeTab || 'historico');
+export const PatientRecordTabs = ({
+  activeTab,
+  onTabChange,
+  data,
+  permissions,
+}: PatientRecordTabsProps) => {
+  const [currentTab, setCurrentTab] = useState<TabKey>(
+    activeTab || "historico"
+  );
 
   const handleTabClick = (tab: TabKey) => {
     if (onTabChange) {
@@ -103,7 +119,10 @@ export const PatientRecordTabs = ({ activeTab, onTabChange, data, permissions }:
 
   return (
     <div>
-      <div role="tablist" className="flex overflow-x-auto border-b border-[var(--card-border)]">
+      <div
+        role="tablist"
+        className="flex overflow-x-auto border-b border-[var(--card-border)]"
+      >
         {tabs.map((tab) => {
           const isActive = tab === currentTab;
           return (
@@ -116,8 +135,8 @@ export const PatientRecordTabs = ({ activeTab, onTabChange, data, permissions }:
               onClick={() => handleTabClick(tab)}
               className={`inline-flex items-center gap-2 whitespace-nowrap border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'border-[var(--accent)] text-[var(--accent)]'
-                  : 'border-transparent text-[var(--text-secondary)] hover:border-[var(--card-border)] hover:text-[var(--text-primary)]'
+                  ? "border-[var(--accent)] text-[var(--accent)]"
+                  : "border-transparent text-[var(--text-secondary)] hover:border-[var(--card-border)] hover:text-[var(--text-primary)]"
               }`}
             >
               {tabsMap[tab].icon}

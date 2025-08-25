@@ -135,3 +135,4 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({
 };
 
 export default AppointmentTable;
+// ...existing code...

@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import Header from "@/components/header/header";
-import TaskFilterButtons from "./modules/taskFilterButton";
-import TaskSearchInput from "./modules/taskSearchInput";
-import NewTaskButton from "./modules/newTaskButton";
-import TeamTasksTable from "./modules/teamTaskTable";
-import { useTheme } from "@/app/contexts/themeContext"; // Importar o hook do tema
+import Sidebar from "@/components/sidebar/sidebar";
+import TaskFilterButtons from "@/components/Tarefas/modules/taskFilterButton";
+import TaskSearchInput from "@/components/Tarefas/modules/taskSearchInput";
+import NewTaskButton from "@/components/Tarefas/modules/newTaskButton";
+import TeamTasksTable from "@/components/Tarefas/modules/teamTaskTable";
+import { useTheme } from "@/contexts/themeContext"; // Importar o hook do tema
 
 // --- Tipos de Dados ---
 interface Task {
@@ -275,62 +276,65 @@ const TarefasPage: React.FC = () => {
   const handleNewTask = () => console.log("Criar nova tarefa");
 
   return (
-    <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
-      <Header title="Tarefas" />
-      <main className="p-4 sm:p-6">
-        <div className="max-w-full mx-auto">
-          {/* Controles e Filtros */}
-          <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-6 mb-6 border border-[var(--card-border)]">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center mb-4 md:mb-0">
-                <h3 className="text-xl font-semibold text-[var(--text-primary)] mr-4">
-                  Minhas Tarefas
-                </h3>
-                <TaskFilterButtons
-                  activeFilter={activeFilter}
-                  onFilterChange={setActiveFilter}
-                />
-              </div>
-              <div className="flex space-x-2">
-                <TaskSearchInput
-                  searchValue={searchValue}
-                  onSearchChange={setSearchValue}
-                />
-                <NewTaskButton onClick={handleNewTask} />
-              </div>
-            </div>
-          </div>
-
-          {/* Lista de Tarefas */}
-          <div className="bg-[var(--card-bg)] rounded-lg shadow-sm overflow-hidden mb-6 border border-[var(--card-border)]">
-            <div className="divide-y divide-[var(--card-border)]">
-              {filteredTasks.length > 0 ? (
-                filteredTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    onToggleComplete={handleToggleComplete}
-                    onEdit={handleEditTask}
-                    onDelete={handleDeleteTask}
+    <div className="min-h-screen" style={{ background: "var(--background)" }}>
+      <Sidebar />
+      <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
+        <Header title="Tarefas" />
+        <main className="p-4 sm:p-6">
+          <div className="max-w-full mx-auto">
+            {/* Controles e Filtros */}
+            <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-6 mb-6 border border-[var(--card-border)]">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center mb-4 md:mb-0">
+                  <h3 className="text-xl font-semibold text-[var(--text-primary)] mr-4">
+                    Minhas Tarefas
+                  </h3>
+                  <TaskFilterButtons
+                    activeFilter={activeFilter}
+                    onFilterChange={setActiveFilter}
                   />
-                ))
-              ) : (
-                <div className="p-6 text-center text-[var(--text-secondary)]">
-                  Nenhuma tarefa encontrada.
                 </div>
-              )}
+                <div className="flex space-x-2">
+                  <TaskSearchInput
+                    searchValue={searchValue}
+                    onSearchChange={setSearchValue}
+                  />
+                  <NewTaskButton onClick={handleNewTask} />
+                </div>
+              </div>
+            </div>
+
+            {/* Lista de Tarefas */}
+            <div className="bg-[var(--card-bg)] rounded-lg shadow-sm overflow-hidden mb-6 border border-[var(--card-border)]">
+              <div className="divide-y divide-[var(--card-border)]">
+                {filteredTasks.length > 0 ? (
+                  filteredTasks.map((task) => (
+                    <TaskItem
+                      key={task.id}
+                      task={task}
+                      onToggleComplete={handleToggleComplete}
+                      onEdit={handleEditTask}
+                      onDelete={handleDeleteTask}
+                    />
+                  ))
+                ) : (
+                  <div className="p-6 text-center text-[var(--text-secondary)]">
+                    Nenhuma tarefa encontrada.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Tarefas da Equipe */}
+            <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-6 border border-[var(--card-border)]">
+              <h3 className="text-lg font-medium text-[var(--text-primary)] mb-4">
+                Tarefas da Equipe
+              </h3>
+              <TeamTasksTable tasks={teamTasks} />
             </div>
           </div>
-
-          {/* Tarefas da Equipe */}
-          <div className="bg-[var(--card-bg)] rounded-lg shadow-sm p-6 border border-[var(--card-border)]">
-            <h3 className="text-lg font-medium text-[var(--text-primary)] mb-4">
-              Tarefas da Equipe
-            </h3>
-            <TeamTasksTable tasks={teamTasks} />
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };

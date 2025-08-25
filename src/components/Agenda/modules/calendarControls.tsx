@@ -1,4 +1,3 @@
-// src/app/agenda/modules/CalendarControls.tsx
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -170,3 +169,4 @@ const CalendarControls: React.FC<CalendarControlsProps> = ({
 };
 
 export default CalendarControls;
+// ...existing code...

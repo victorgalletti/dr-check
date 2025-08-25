@@ -2,16 +2,19 @@
 
 import React, { useState } from "react";
 import Header from "@/components/header/header";
+import Sidebar from "@/components/sidebar/sidebar";
 import SummaryCard, {
   PlusIcon,
   MinusIcon,
   BalanceIcon,
   DueIcon,
-} from "./modules/summaryCard";
-import FilterButtons from "./modules/filterButtons";
-import DataTable, { ColumnDefinition } from "./modules/dataTable";
-import StatusBadge from "./modules/statusBadge";
-import BillingByInsuranceTable from "./modules/billingByInsurance";
+} from "@/components/Financeiro/modules/summaryCard";
+import FilterButtons from "@/components/Financeiro/modules/filterButtons";
+import DataTable, {
+  ColumnDefinition,
+} from "@/components/Financeiro/modules/dataTable";
+import StatusBadge from "@/components/Financeiro/modules/statusBadge";
+import BillingByInsuranceTable from "@/components/Financeiro/modules/billingByInsurance";
 
 // Componente para navegação por abas
 const TabsNavigation = ({
@@ -127,6 +130,7 @@ const FinanceiroPage: React.FC = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--background)" }}>
+      <Sidebar />
       <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
         <Header title="Financeiro" />
         <main

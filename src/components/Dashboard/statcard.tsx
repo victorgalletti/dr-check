@@ -1,6 +1,6 @@
 // src/components/modules/dashboard/StatCard.tsx
 import React from "react";
-import { useTheme } from "@/app/contexts/themeContext";
+import { useTheme } from "@/contexts/themeContext";
 
 interface StatCardProps {
   icon: React.ReactNode;

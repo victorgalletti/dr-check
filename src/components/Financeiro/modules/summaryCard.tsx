@@ -103,6 +103,4 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
 };
 
 export default SummaryCard;
-
-// Exportando os ícones para que possam ser usados na página principal
 export { PlusIcon, MinusIcon, BalanceIcon, DueIcon };

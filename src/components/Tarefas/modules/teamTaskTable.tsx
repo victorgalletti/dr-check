@@ -15,7 +15,6 @@ interface TeamTasksTableProps {
 }
 
 const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
-  // Função atualizada com classes para o modo escuro
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "Alta":
@@ -29,7 +28,6 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
     }
   };
 
-  // Função atualizada com classes para o modo escuro
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Em Andamento":
@@ -37,13 +35,12 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
       case "Pendente":
         return "bg-yellow-100 text-yellow-800";
       case "Concluída":
-        return "bg-[var(--success-bg)] text-[var(--success-color)] "; //modificar depois
+        return "bg-[var(--success-bg)] text-[var(--success-color)] ";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
     }
   };
 
-  // Cores sólidas que funcionam bem em ambos os modos
   const getAssigneeColor = (initials: string) => {
     switch (initials) {
       case "CS":
@@ -59,7 +56,6 @@ const TeamTasksTable: React.FC<TeamTasksTableProps> = ({ tasks = [] }) => {
 
   return (
     <div className="overflow-x-auto">
-      {/* Tabela adaptada com variáveis de CSS para o tema */}
       <table className="min-w-full divide-y divide-[var(--card-border)]">
         <thead className="bg-black/5 dark:bg-white/5">
           <tr>

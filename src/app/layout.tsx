@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/sidebar/sidebar";
-import { ThemeProvider } from "@/app/contexts/themeContext";
+import { ThemeProvider } from "@/contexts/themeContext";
 
 // Fontes personalizadas
 const geistSans = Geist({
@@ -32,10 +31,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="antialiased bg-white text-neutral-900">
-        <ThemeProvider>
-          <Sidebar />
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

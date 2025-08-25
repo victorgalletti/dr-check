@@ -42,3 +42,4 @@ export interface NavigationItem {
   icon?: string;
   isActive?: boolean;
 }
+// ...existing code...

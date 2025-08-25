@@ -2,7 +2,7 @@
 
 import React from "react";
 import Header from "@/components/header/header";
-import { MdWarning } from "react-icons/md";
+import Sidebar from "@/components/sidebar/sidebar";
 
 // ==== Início: StatCard
 type StatCardProps = {
@@ -342,6 +342,7 @@ const EstoquePage: React.FC = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--background)" }}>
+      <Sidebar />
       <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
         <Header title="Estoque" />
         <main className="p-4 sm:p-6 md:p-8">

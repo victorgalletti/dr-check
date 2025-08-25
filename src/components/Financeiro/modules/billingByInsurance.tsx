@@ -10,8 +10,6 @@ interface BillingByInsuranceTableProps {
   data: InsuranceBilling[];
 }
 
-// CORREÇÃO: Adicionado um valor por defeito '[]' à propriedade 'data'
-// Isto previne o erro 'map of undefined' se a propriedade não for fornecida.
 const BillingByInsuranceTable: React.FC<BillingByInsuranceTableProps> = ({
   data = [],
 }) => {

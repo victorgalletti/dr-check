@@ -3,15 +3,18 @@
 
 import React, { useState, useCallback } from "react";
 import Header from "@/components/header/header";
-import CalendarControls from "@/app/agenda/modules/calendarControls";
-import CalendarGrid from "@/app/agenda/modules/calendarGrid";
-import AppointmentTable from "@/app/agenda/modules/appointmentTable";
+import Sidebar from "@/components/sidebar/sidebar";
+import CalendarControls from "@/components/Agenda/modules/calendarControls";
+import CalendarGrid from "@/components/Agenda/modules/calendarGrid";
+import AppointmentTable from "@/components/Agenda/modules/appointmentTable";
 import {
   mockAppointments,
   mockCalendarEvents,
-} from "@/app/agenda/mockData/mockData";
-import CrudAppointment, { AppointmentData } from "./modules/crudAppointment";
-import { CalendarEvent } from "./types/types";
+} from "@/components/Agenda/mockData/mockData";
+import CrudAppointment, {
+  AppointmentData,
+} from "@/components/Agenda/modules/crudAppointment";
+import { CalendarEvent } from "@/components/Agenda/types/types";
 
 const viewMap: { [key: string]: string } = {
   Dia: "timeGridDay",
@@ -76,6 +79,7 @@ const AgendaPage: React.FC = () => {
   return (
     <>
       <div className="min-h-screen">
+        <Sidebar />
         <div className="md:pl-[var(--sidebar-w,16rem)] transition-[padding] duration-300 ease-in-out">
           <Header title="Agenda" />
           <main className="p-4 sm:p-6 md:p-8">

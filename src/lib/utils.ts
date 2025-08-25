@@ -1,10 +1,12 @@
-// lib/utils.ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-import { useState, useEffect } from 'react';
-import {
-  mockPatientData,
-  mockEmptyData,
-} from './mocks';
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+import { useState, useEffect } from "react";
+import { mockPatientData, mockEmptyData } from "./mocks";
 
 export interface HistoryRecord {
   id: number;
@@ -109,22 +111,22 @@ export interface Permissions {
 
 export const useMockData = (patientId: string) => {
   const [data, setData] = useState<PatientData | null>(null);
-  const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'empty'>(
-    'loading',
-  );
+  const [status, setStatus] = useState<
+    "loading" | "success" | "error" | "empty"
+  >("loading");
 
   useEffect(() => {
-    setStatus('loading');
+    setStatus("loading");
     const timer = setTimeout(() => {
-      if (patientId === 'not-found' || patientId === 'error') {
+      if (patientId === "not-found" || patientId === "error") {
         setData(null);
-        setStatus('error');
-      } else if (patientId === 'empty') {
+        setStatus("error");
+      } else if (patientId === "empty") {
         setData(mockEmptyData as unknown as PatientData);
-        setStatus('empty');
+        setStatus("empty");
       } else {
         setData(mockPatientData as PatientData);
-        setStatus('success');
+        setStatus("success");
       }
     }, 1000);
 
@@ -142,11 +144,11 @@ export const formatBirthdate = (birthdate: string) => {
   if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
     age--;
   }
-  return `${dob.toLocaleDateString('pt-BR')} (${age} anos)`;
+  return `${dob.toLocaleDateString("pt-BR")} (${age} anos)`;
 };
 
 export const calculateIMC = (weight: number, height: number) => {
-  if (weight <= 0 || height <= 0) return 'N/A';
+  if (weight <= 0 || height <= 0) return "N/A";
   const imc = weight / (height * height);
   return imc.toFixed(2);
 };

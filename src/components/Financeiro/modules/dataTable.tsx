@@ -1,6 +1,5 @@
 import React from "react";
 
-// A definição da coluna permanece a mesma.
 export interface ColumnDefinition<T> {
   key: keyof T & string;
   header: string;
@@ -9,11 +8,9 @@ export interface ColumnDefinition<T> {
 
 interface DataTableProps<T> {
   columns: ColumnDefinition<T>[];
-  // A propriedade 'data' agora é opcional para maior segurança.
   data?: T[];
 }
 
-// Adicionado um valor por defeito '[]' para a propriedade 'data'.
 function DataTable<T>({ columns, data = [] }: DataTableProps<T>) {
   return (
     <div className="overflow-x-auto">

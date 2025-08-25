@@ -1,4 +1,3 @@
-// src/app/agenda/modules/CalendarGrid.tsx
 "use client";
 
 import React from "react";
@@ -8,9 +7,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import { EventContentArg, DayHeaderContentArg } from "@fullcalendar/core";
-import { CalendarEvent } from "@/app/agenda/types/types";
+import { CalendarEvent } from "../types/types";
 
-// Seus estilos personalizados para o calendário.
 import "./calendarGrid.css";
 
 interface CalendarGridProps {
@@ -181,3 +179,4 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
 };
 
 export default CalendarGrid;
+// ...existing code...

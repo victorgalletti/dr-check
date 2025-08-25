@@ -2,23 +2,23 @@
 
 import { useEffect, useState } from "react";
 import {
-  FaHome,
-  FaCalendarAlt,
-  FaFileMedical,
-  FaClipboardList,
-  FaMoneyBillWave,
-  FaBoxes,
-  FaCog,
-  FaBell,
-  FaQuestionCircle,
-  FaBars,
-  FaTimes,
-  FaSun,
-  FaMoon,
-} from "react-icons/fa";
+  Home,
+  Calendar,
+  ClipboardPlus,
+  ClipboardList,
+  CircleDollarSign,
+  Boxes,
+  Settings,
+  Bell,
+  HelpCircle,
+  Menu,
+  X,
+  Sun,
+  Moon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "@/app/contexts/themeContext";
+import { useTheme } from "@/contexts/themeContext";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -39,18 +39,18 @@ export default function Sidebar() {
   }, [collapsed]);
 
   const menuItems = [
-    { label: "Dashboard", icon: FaHome, href: "/" },
-    { label: "Agenda", icon: FaCalendarAlt, href: "/agenda" },
-    { label: "Prontuário", icon: FaFileMedical, href: "/prontuario" },
-    { label: "Tarefas", icon: FaClipboardList, href: "/tarefas" },
-    { label: "Financeiro", icon: FaMoneyBillWave, href: "/financeiro" },
-    { label: "Estoque", icon: FaBoxes, href: "/estoque" },
+    { label: "Dashboard", icon: Home, href: "/dashboard" },
+    { label: "Agenda", icon: Calendar, href: "/agenda" },
+    { label: "Prontuário", icon: ClipboardPlus, href: "/prontuario" },
+    { label: "Tarefas", icon: ClipboardList, href: "/tarefas" },
+    { label: "Financeiro", icon: CircleDollarSign, href: "/financeiro" },
+    { label: "Estoque", icon: Boxes, href: "/estoque" },
   ];
 
   const bottomItems = [
-    { label: "Notificações", icon: FaBell, href: "/notificacoes" },
-    { label: "Suporte", icon: FaQuestionCircle, href: "/suporte" },
-    { label: "Configurações", icon: FaCog, href: "/configuracoes" },
+    { label: "Notificações", icon: Bell, href: "/notificacoes" },
+    { label: "Suporte", icon: HelpCircle, href: "/suporte" },
+    { label: "Configurações", icon: Settings, href: "/configuracoes" },
   ];
 
   const sidebarContent = (
@@ -70,14 +70,14 @@ export default function Sidebar() {
               theme === "dark" ? "text-[var(--foreground)]" : "text-gray-500"
             } hover:text-green-500 transition hidden md:block text-2xl`}
           >
-            <FaBars />
+            <Menu />
           </button>
           <button
             onClick={toggleMobile}
             aria-label="Fechar menu mobile"
             className="text-[var(--text-secondary)] hover:text-green-500 transition md:hidden text-2xl"
           >
-            <FaTimes />
+            <X />
           </button>
         </div>
 
@@ -122,9 +122,9 @@ export default function Sidebar() {
             onClick={toggleTheme}
           >
             {theme === "light" ? (
-              <FaSun className="text-xl" />
+              <Sun className="text-xl" />
             ) : (
-              <FaMoon className="text-xl" />
+              <Moon className="text-xl" />
             )}
             {!collapsed && (
               <span className="font-medium">
@@ -171,7 +171,7 @@ export default function Sidebar() {
         onClick={toggleMobile}
         aria-label="Abrir menu"
       >
-        <FaBars />
+        <Menu />
       </button>
 
       {/* Sidebar Mobile */}
