@@ -3,20 +3,23 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/contexts/authContext";
 import AuthLayout from "@/components/common/AuthLayout";
 import InputField from "@/components/common/InputField";
 import GoogleLoginButton from "@/components/common/GoogleLoginButton";
 import { Checkbox } from "@/components/common/checkbox";
 
 const Login: React.FC = () => {
+  const { signIn, signInWithGoogle } = useAuth();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
-  const router = useRouter();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,6 +31,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
 
     const newErrors: Record<string, string> = {};
     if (!formData.email) {
@@ -42,12 +46,13 @@ const Login: React.FC = () => {
       return;
     }
 
-    console.log("Login attempt:", formData);
-    router.push("/dashboard");
-  };
+    const result = await signIn(formData.email, formData.password);
 
-  const handleGoogleLogin = () => {
-    console.log("Google login attempt");
+    if (result.success) {
+      router.push("/dashboard");
+    } else {
+      setFormError(result.message || "E-mail ou senha inválidos.");
+    }
   };
 
   return (
@@ -114,6 +119,12 @@ const Login: React.FC = () => {
           </Link>
         </div>
 
+        {formError && (
+          <div className="text-red-500 text-sm text-center mb-2">
+            {formError}
+          </div>
+        )}
+
         <button
           type="submit"
           className="inline-flex items-center justify-center rounded-lg w-full px-8 py-3 text-base font-medium text-[var(--accent-foreground)] bg-[var(--dr-green)] transition-opacity hover:opacity-90"
@@ -132,7 +143,7 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <GoogleLoginButton onClick={handleGoogleLogin}>
+        <GoogleLoginButton onClick={signInWithGoogle}>
           Entrar com Google
         </GoogleLoginButton>
 

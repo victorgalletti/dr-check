@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/authContext";
 import Link from "next/link";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import AuthLayout from "@/components/common/AuthLayout";
@@ -8,6 +10,8 @@ import InputField from "@/components/common/InputField";
 import GoogleLoginButton from "@/components/common/GoogleLoginButton";
 
 const Register: React.FC = () => {
+  const { signUp, signInWithGoogle } = useAuth();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,6 +21,7 @@ const Register: React.FC = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,6 +61,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
 
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
@@ -63,11 +69,18 @@ const Register: React.FC = () => {
       return;
     }
 
-    console.log("Register attempt:", formData);
-  };
+    const result = await signUp(
+      formData.fullName,
+      formData.email,
+      formData.password
+    );
 
-  const handleGoogleLogin = () => {
-    console.log("Google register attempt");
+    if (result.success) {
+      alert("Conta criada com sucesso! Você já pode fazer o login.");
+      router.push("/login");
+    } else {
+      setFormError(result.message || "Ocorreu um erro ao criar a conta.");
+    }
   };
 
   return (
@@ -143,6 +156,12 @@ const Register: React.FC = () => {
           </button>
         </div>
 
+        {formError && (
+          <div className="text-red-500 text-sm text-center mb-2">
+            {formError}
+          </div>
+        )}
+
         <button
           type="submit"
           className="inline-flex items-center justify-center rounded-lg w-full px-8 py-3 text-base font-medium text-[var(--accent-foreground)] bg-[var(--dr-green)] transition-opacity hover:opacity-90"
@@ -161,7 +180,7 @@ const Register: React.FC = () => {
           </div>
         </div>
 
-        <GoogleLoginButton onClick={handleGoogleLogin}>
+        <GoogleLoginButton onClick={signInWithGoogle}>
           Registrar com Google
         </GoogleLoginButton>
 
